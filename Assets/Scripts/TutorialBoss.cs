@@ -57,18 +57,25 @@ public class TutorialBoss : MonoBehaviour
             attackTimer += Time.deltaTime;
         }
         Attack();
-        AttackWheel();
+        //AttackWheel();
 
-
+        bool debug = true;
         //debug
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (debug && attackChoice == 0)
+        {
+            canAttack = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && debug)
         {
             AttackCircle();
             attackChoice = 1;
+            canAttack = true;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2) && debug)
         {
             attackChoice = 2;
+            canAttack = true;
         }
     }
     private void SpawnRotatingProjectiles(GameObject projectile, int amount, int radius, bool shouldMoveForward, bool aroundThePlayer)
