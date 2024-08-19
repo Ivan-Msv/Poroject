@@ -28,24 +28,39 @@ public class TutorialBoss : MonoBehaviour
     [SerializeField] private int axisProjectileRadius;
     [Space]
     [Header("Attack Settings")]
+    [SerializeField] private float attackTimerStart;
+    [SerializeField] private float attackTimerDuration;
+    [SerializeField] private float attackCooldownDuration = 1.5f;
     [SerializeField] private int moveXRadius;
     [SerializeField] private float moveXSpeed;
     [SerializeField] private int moveStage = 0;
+    [Space]
+    [Header("Pattern 1 settings")]
+    [SerializeField] private float p1ProjectileDuration = 0.6f;
+    [Space]
+    [Header("Pattern 2 settings")]
+    [SerializeField] private float p2ProjectileDuration = 0.3f;
+    [Space]
+    [Header("Pattern 3 settings")]
+    [SerializeField] private float p3ProjectileDuration;
+    [Space]
+    [Header("Pattern 4 settings")]
+    [SerializeField] private float p4ProjectileDuration;
+    [Space]
     [Header("Idle")]
     [SerializeField] private float idleAngle = 0;
-    [SerializeField] private Vector3 directionToPlayer;
-  
+    [SerializeField] private Vector3 idlePositionStart;
+   
     private Vector3 leftBound;
     private Vector3 rightBound;
 
-    private float attackTimer;
     private bool canAttack = true;
     private int lastAttack;
     private int attackChoice;
     private float projectileTimer;
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -54,7 +69,7 @@ public class TutorialBoss : MonoBehaviour
 
         if (attackChoice != 0)
         {
-            attackTimer += Time.deltaTime;
+            attackTimerStart += Time.deltaTime;
         }
         Attack();
         //AttackWheel();
@@ -140,16 +155,16 @@ public class TutorialBoss : MonoBehaviour
         }
     }
 
-    private IEnumerator AttackCooldown()
+    private IEnumerator AttackCooldownTimer()
     {
         canAttack = false;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(attackCooldownDuration);
         canAttack = true;
-        attackTimer = 0f;
+        attackTimerStart = 0f;
     }
     private void Attack()
     {
-        if (canAttack && attackTimer < 7)
+        if (canAttack && attackTimerStart < attackTimerDuration)
         {
             projectileTimer += Time.deltaTime;
             if (attackChoice == 1)
@@ -164,45 +179,47 @@ public class TutorialBoss : MonoBehaviour
 
             else if (attackChoice == 3)
             {
-                Debug.Log("Attack 3"); // Make it dash towards you while shooting projectiles upwards and downwards
+                Debug.Log("Attack 3"); // Make it dash towards you while shooting  EXPLODING projectiles upwards and downwards
             }
 
             else if (attackChoice == 4)
             {
-                Debug.Log("Attack 4"); // Ram into player and start choice 1;
+                Debug.Log("Attack 4"); // Something maybe even scrap 4th attack
             }
         }
-        else // idle animation here
+        else
         {
             Idle();
         }
 
-        if (attackTimer >= 5 && canAttack)
+        BeginCooldown();
+    }
+
+    private void BeginCooldown()
+    {
+        if (attackTimerStart >= attackTimerDuration && canAttack)
         {
-            StartCoroutine(AttackCooldown());
+            if (lastAttack == 2)
+            {
+                
+            }
+
+            StartCoroutine(AttackCooldownTimer());
             lastAttack = attackChoice;
             attackChoice = 0;
             moveStage = 0;
 
-            directionToPlayer = (transform.position - player.transform.position).normalized;
-            idleAngle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x);
+            idlePositionStart = transform.position;
+            idleAngle = Mathf.Atan2(idlePositionStart.y, idlePositionStart.x);
         }
     }
     private void Idle()
     {
-        if (distanceFromPlayer > 5)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 20 * Time.deltaTime); // FIX THIS CONTINUE THIS LINE
-        }
-        else
-        {
-            idleAngle += 90 * Time.deltaTime * Mathf.Deg2Rad;
+        float xPos = idlePositionStart.x + MathF.Cos(idleAngle) * 0.1f;
+        float yPos = idlePositionStart.y + MathF.Sin(idleAngle) * 0.1f;
 
-            float xPos = player.transform.position.x + MathF.Cos(idleAngle) * 4;
-            float yPos = player.transform.position.y + MathF.Sin(idleAngle) * 4;
-
-            transform.position = new Vector3(xPos, yPos, 0);
-        }
+        idleAngle += 5 * Time.deltaTime;
+        transform.position = new Vector3(xPos, yPos, 0);
     }
     private void AttackCircle()
     {
@@ -215,14 +232,14 @@ public class TutorialBoss : MonoBehaviour
     }
     private void FirstAttackPattern()
     {
-        if (distanceFromPlayer > 6)
+        if (distanceFromPlayer > 5)
         {
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 6 * Time.deltaTime);
         }
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 2 * Time.deltaTime);
-            if (projectileTimer >= 0.6f)
+            if (projectileTimer >= p1ProjectileDuration)
             {
                 SpawnRotatingProjectiles(projectileTriangle, rotatingProjectileAmount, 0, true, false);
                 projectileTimer = 0f;
@@ -232,7 +249,7 @@ public class TutorialBoss : MonoBehaviour
     private void SecondAttackPattern()
     {
         SecondAttackMovement();
-        if (projectileTimer >= 0.3f && moveStage != 0)
+        if (projectileTimer >= p2ProjectileDuration && moveStage != 0)
         {
             switch(moveStage)
             {
@@ -272,7 +289,7 @@ public class TutorialBoss : MonoBehaviour
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, startPos, 20 * Time.deltaTime); // make local that changes only when move 0 then use that to move left right
+            transform.position = Vector3.MoveTowards(transform.position, startPos, 20 * Time.deltaTime);
             if (transform.position == startPos)
             {
                 moveStage = 1;
