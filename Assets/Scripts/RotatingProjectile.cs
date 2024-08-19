@@ -14,10 +14,12 @@ public class RotatingProjectile : MonoBehaviour
     private bool moveForward;
     private Vector3 moveDirection;
     private Vector3 rotationPos;
+    private Vector3 spawnScale;
     // Start is called before the first frame update
     void Start()
     {
-        
+        spawnScale = transform.localScale;
+        transform.localScale = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -27,6 +29,10 @@ public class RotatingProjectile : MonoBehaviour
         if (timeTillDecay <= 0 || Vector3.Distance(transform.position, rotationPos) > 12 && moveForward)
         {
             DeleteProjectile();
+        }
+        else
+        {
+            SpawnProjectile();
         }
 
         Move();
@@ -57,6 +63,14 @@ public class RotatingProjectile : MonoBehaviour
         if (transform.localScale.x <= 0.1f)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void SpawnProjectile()
+    {
+        if (transform.localScale.x <= spawnScale.x)
+        {
+            transform.localScale += spawnScale * decaySpeed * Time.deltaTime;
         }
     }
 

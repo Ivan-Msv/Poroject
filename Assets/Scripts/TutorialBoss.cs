@@ -60,7 +60,7 @@ public class TutorialBoss : MonoBehaviour
     private float projectileTimer;
     void Start()
     {
-
+        idlePositionStart = transform.position;
     }
 
     void Update()
@@ -164,7 +164,7 @@ public class TutorialBoss : MonoBehaviour
     }
     private void Attack()
     {
-        if (canAttack && attackTimerStart < attackTimerDuration)
+        if (canAttack && attackTimerStart <= attackTimerDuration)
         {
             projectileTimer += Time.deltaTime;
             if (attackChoice == 1)
@@ -191,7 +191,6 @@ public class TutorialBoss : MonoBehaviour
         {
             Idle();
         }
-
         BeginCooldown();
     }
 
@@ -199,11 +198,6 @@ public class TutorialBoss : MonoBehaviour
     {
         if (attackTimerStart >= attackTimerDuration && canAttack)
         {
-            if (lastAttack == 2)
-            {
-                
-            }
-
             StartCoroutine(AttackCooldownTimer());
             lastAttack = attackChoice;
             attackChoice = 0;
@@ -215,11 +209,14 @@ public class TutorialBoss : MonoBehaviour
     }
     private void Idle()
     {
-        float xPos = idlePositionStart.x + MathF.Cos(idleAngle) * 0.1f;
-        float yPos = idlePositionStart.y + MathF.Sin(idleAngle) * 0.1f;
+        if (!canAttack)
+        {
+            float xPos = idlePositionStart.x + MathF.Cos(idleAngle) * 0.1f;
+            float yPos = idlePositionStart.y + MathF.Sin(idleAngle) * 0.1f;
 
-        idleAngle += 5 * Time.deltaTime;
-        transform.position = new Vector3(xPos, yPos, 0);
+            idleAngle += 5 * Time.deltaTime;
+            transform.position = new Vector3(xPos, yPos, 0);
+        }
     }
     private void AttackCircle()
     {
