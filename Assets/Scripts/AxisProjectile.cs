@@ -52,9 +52,10 @@ public class AxisProjectile : MonoBehaviour
             transform.localScale += spawnScale * decaySpeed * Time.deltaTime;
         }
     }
-    public void SetDirection(Vector3 parentPos, Vector3 axis)
+    public void SetDirection(Vector3 parentPos, Vector3 axis, float decayTime)
     {
         parentPosition = parentPos;
         directionAxis = axis;
+        timeTillDecay = decayTime;
     }
 }

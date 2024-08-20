@@ -97,3 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f97e0f2912ef824da91cd948f61b26e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotatingProjectile: {fileID: 4449727507016471927, guid: 7ed8524f80b1937479e293080604f093, type: 3}
+  mainProjectileSpeed: 2
+  mainProjectileSpeedMultiplier: 1
+  timeTillDecay: 6
+  decaySpeed: 3
+  explodingAmount: 10
+  explodingProjectileSpeed: 1

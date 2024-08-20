@@ -16,8 +16,9 @@ public class TutorialBoss : MonoBehaviour
     [SerializeField] private float distanceFromPlayer;
     [Space]
     [Header("Projectile List")]
-    [SerializeField] private GameObject projectileTriangle;
-    [SerializeField] private GameObject projectileDiamond;
+    [SerializeField] private GameObject rotatingProjectile;
+    [SerializeField] private GameObject axisProjectile;
+    [SerializeField] private GameObject explodingProjectile;
     [Space]
     [Header("Rotating Projectile Settings")]
     [SerializeField] private int rotatingProjectileAmount;
@@ -92,8 +93,12 @@ public class TutorialBoss : MonoBehaviour
             attackChoice = 2;
             canAttack = true;
         }
+        if (Input.GetKeyDown(KeyCode.Alpha3) && debug)
+        {
+            SpawnProjectiles(explodingProjectile, 3, 2, Vector3.down);
+        }
     }
-    private void SpawnRotatingProjectiles(GameObject projectile, int amount, int radius, bool shouldMoveForward, bool aroundThePlayer)
+    public void SpawnRotatingProjectiles(GameObject projectile, int amount, int radius, bool shouldMoveForward, bool aroundThePlayer)
     {
         float angleStep = 360f / amount;
         float angle = 0f;
@@ -119,7 +124,7 @@ public class TutorialBoss : MonoBehaviour
                 Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
 
                 GameObject projectileInstance = Instantiate(projectile, projectileVector, transform.rotation);
-                projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward);
+                projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward, attackTimerDuration);
             }
             else
             {
@@ -130,19 +135,18 @@ public class TutorialBoss : MonoBehaviour
                 Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
 
                 GameObject projectileInstance = Instantiate(projectile, currentPos, transform.rotation);
-                projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward);
+                projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward, attackTimerDuration);
             }
 
             angle += angleStep;
         }
     }
-    private void SpawnProjectiles(GameObject projectile, int amount, int radius, Vector3 axis, Quaternion? rotation = null)
+    public void SpawnProjectiles(GameObject projectile, int amount, int radius, Vector3 axis, Quaternion? rotation = null)
     {
         Quaternion newRotation = rotation ?? projectile.transform.rotation;
 
         Vector3 leftBound = transform.position - new Vector3(radius, 0, 0);
         Vector3 rightBound = transform.position + new Vector3(radius, 0, 0);
-
 
         float stepX = (rightBound.x - leftBound.x) / (amount - 1);
 
@@ -151,7 +155,18 @@ public class TutorialBoss : MonoBehaviour
             float xPos = leftBound.x + stepX * i;
             Vector3 newPos = new Vector3(xPos, transform.position.y, 0);
             GameObject newProjectile = Instantiate(projectile, newPos, newRotation);
-            newProjectile.GetComponent<AxisProjectile>().SetDirection(transform.position, axis);
+            if (projectile.GetComponent<AxisProjectile>())
+            {
+                newProjectile.GetComponent<AxisProjectile>().SetDirection(transform.position, axis, attackTimerDuration);
+            }
+            else if (projectile.GetComponent<ExplodingProjectile>())
+            {
+                newProjectile.GetComponent<ExplodingProjectile>().SetDirection(transform.position, axis, attackTimerDuration);
+            }
+            else
+            {
+                Debug.Log("Cannot get component from set projectile.");
+            }
         }
     }
 
@@ -223,7 +238,7 @@ public class TutorialBoss : MonoBehaviour
         int reduceofObjects = 0;
         for (int i = 5; i < 10; i++)
         {
-            SpawnRotatingProjectiles(projectileTriangle, 50 - reduceofObjects, i, false, true);
+            SpawnRotatingProjectiles(rotatingProjectile, 50 - reduceofObjects, i, false, true);
             reduceofObjects += 10;
         }
     }
@@ -238,7 +253,7 @@ public class TutorialBoss : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 2 * Time.deltaTime);
             if (projectileTimer >= p1ProjectileDuration)
             {
-                SpawnRotatingProjectiles(projectileTriangle, rotatingProjectileAmount, 0, true, false);
+                SpawnRotatingProjectiles(rotatingProjectile, rotatingProjectileAmount, 0, true, false);
                 projectileTimer = 0f;
             }
         }
@@ -251,10 +266,10 @@ public class TutorialBoss : MonoBehaviour
             switch(moveStage)
             {
                 case 1:
-                    SpawnProjectiles(projectileDiamond, axisProjectileAmount, axisProjectileRadius, new Vector3(0.65f, -1, 0), Quaternion.Euler(0, 0, -65));
+                    SpawnProjectiles(axisProjectile, axisProjectileAmount, axisProjectileRadius, new Vector3(0.65f, -1, 0), Quaternion.Euler(0, 0, -65));
                     break;
                 case 2:
-                    SpawnProjectiles(projectileDiamond, axisProjectileAmount, axisProjectileRadius, new Vector3(-0.65f, -1, 0), Quaternion.Euler(0, 0, 65));
+                    SpawnProjectiles(axisProjectile, axisProjectileAmount, axisProjectileRadius, new Vector3(-0.65f, -1, 0), Quaternion.Euler(0, 0, 65));
                     break;
             }
             projectileTimer = 0f;
