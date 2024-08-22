@@ -74,11 +74,17 @@ public class RotatingProjectile : MonoBehaviour
         }
     }
 
-    public void SetDirection(Vector3 direction, Vector3 rotationTransform, bool shouldMoveForward, float decayTime)
+    public void SetDirection(Vector3 direction, Vector3 rotationTransform, bool shouldMoveForward, float decayTime, float rotateSpeed, float speed = 0)
     {
         moveDirection = direction;
         rotationPos = rotationTransform;
         moveForward = shouldMoveForward;
         timeTillDecay = decayTime;
+        rotationSpeed = rotateSpeed;
+
+        if (speed != 0)
+        {
+            moveSpeed = speed;
+        }
     }
 }

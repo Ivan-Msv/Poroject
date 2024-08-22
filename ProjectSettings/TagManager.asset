@@ -6,6 +6,8 @@ TagManager:
   tags:
   - RotationPoint
   - Boss
+  - Enemy Projectile
+  - Player Projectile
   layers:
   - Default
   - TransparentFX

@@ -5,10 +5,10 @@ using UnityEngine.EventSystems;
 
 public class AxisProjectile : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float moveSpeedMultiplier;
-    [SerializeField] private float timeTillDecay;
-    [SerializeField] private float decaySpeed;
+    [SerializeField] private float decaySpeed = 3;
+    private float moveSpeed;
+    private float moveSpeedMultiplier;
+    private float timeTillDecay;
     private Vector3 parentPosition;
     private Vector3 directionAxis;
     private Vector3 spawnScale;
@@ -52,10 +52,12 @@ public class AxisProjectile : MonoBehaviour
             transform.localScale += spawnScale * decaySpeed * Time.deltaTime;
         }
     }
-    public void SetDirection(Vector3 parentPos, Vector3 axis, float decayTime)
+    public void SetDirection(Vector3 parentPos, Vector3 axis, float movementSpeed, float movespeedAcceleration, float decayTime)
     {
         parentPosition = parentPos;
         directionAxis = axis;
         timeTillDecay = decayTime;
+        moveSpeed = movementSpeed;
+        moveSpeedMultiplier = movespeedAcceleration;
     }
 }

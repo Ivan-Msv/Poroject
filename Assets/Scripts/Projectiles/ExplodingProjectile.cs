@@ -10,7 +10,8 @@ public class ExplodingProjectile : MonoBehaviour
     [Header("Main Projectile Settings")]
     [SerializeField] private float mainProjectileSpeed;
     [SerializeField] private float mainProjectileSpeedMultiplier;
-    [SerializeField] private float timeTillDecay;
+    [SerializeField] private float mainProjectileDecayTime;
+    [SerializeField] private float mainProjectileRotationSpeed;
     [SerializeField] private float decaySpeed;
     [Space]
     [Header("Exploding Projectiles' Settings")]
@@ -19,6 +20,7 @@ public class ExplodingProjectile : MonoBehaviour
     private Vector3 parentPosition;
     private Vector3 directionAxis;
     private Vector3 spawnScale;
+    private float timeTillDecay;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,8 +31,8 @@ public class ExplodingProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeTillDecay -= Time.deltaTime;
-        if (timeTillDecay / 2 <= 0 || Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, parentPosition.y, 0)) > 12)
+        mainProjectileDecayTime -= Time.deltaTime;
+        if (mainProjectileDecayTime <= 0 || Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, parentPosition.y, 0)) > 12)
         {
             DeleteProjectile();
         }
@@ -76,7 +78,7 @@ public class ExplodingProjectile : MonoBehaviour
             Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
 
             GameObject projectileInstance = Instantiate(rotatingProjectile, currentPos, Quaternion.identity);
-            projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, true, timeTillDecay);
+            projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, true, timeTillDecay - mainProjectileDecayTime, 70, explodingProjectileSpeed);
 
             angle += angleStep;
         }
