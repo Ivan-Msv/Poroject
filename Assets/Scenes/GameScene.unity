@@ -243,7 +243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &151366079
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1181,7 +1181,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &940033717
 Transform:
   m_ObjectHideFlags: 0
@@ -2310,6 +2310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerProjectile: {fileID: 2968968512943686669, guid: 365f78c37e6fee94f85035155e3facbe, type: 3}
   spawnPoint: {fileID: 1690553557}
+  projectileFrequency: 0.1
 --- !u!1 &1921651250
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,10 +9,11 @@ public class PlayerProjectile : MonoBehaviour
     [SerializeField] private float projectileMaxDistance;
     private Vector3 moveDirection;
     private Vector3 startPos;
+    private Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -20,6 +21,7 @@ public class PlayerProjectile : MonoBehaviour
     {
         transform.position += moveDirection * projectileSpeed * Time.deltaTime;
         projectileSpeed += projectileSpeedMultiplier * Time.deltaTime;
+
         if (Vector3.Distance(startPos, transform.position) > projectileMaxDistance)
         {
             DeleteProjectile();

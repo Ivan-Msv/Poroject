@@ -6,6 +6,8 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private GameObject playerProjectile;
     [SerializeField] private Transform spawnPoint;
+    [SerializeField] private float projectileFrequency;
+    private float timer;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,13 +17,15 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
         Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = (new Vector3(mousepos.x, mousepos.y, 0) - transform.parent.position).normalized;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0) && timer >= projectileFrequency)
         {
             GameObject newProjectile = Instantiate(playerProjectile, spawnPoint.position, transform.rotation);
             newProjectile.GetComponent<PlayerProjectile>().SetDirection(spawnPoint.position, direction);
+            timer = 0;
         }
     }
 }
