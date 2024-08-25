@@ -98,7 +98,7 @@ public class FirstBoss : MonoBehaviour
         }
         Attack();
 
-        bool debug = false;
+        bool debug = true;
 
         if (debug)
         {
@@ -116,7 +116,7 @@ public class FirstBoss : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                AttackWheel(4);
+                AttackWheel(5);
             }
         }
         else
