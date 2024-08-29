@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class MapFog : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class MapFog : MonoBehaviour
 
     private void FadeOut()
     {
-        Color newColor = this.GetComponent<SpriteRenderer>().color;
+        Color newColor = this.GetComponent<SpriteShapeRenderer>().color;
         if (newColor.a <= 0.1f)
         {
             gameObject.SetActive(false);
@@ -40,7 +41,7 @@ public class MapFog : MonoBehaviour
         else
         {
             newColor.a = Mathf.Lerp(newColor.a, 0, fadeoutSpeed * Time.deltaTime);
-            this.GetComponent<SpriteRenderer>().color = newColor;
+            this.GetComponent<SpriteShapeRenderer>().color = newColor;
         }
 
         Debug.Log(newColor.a);
