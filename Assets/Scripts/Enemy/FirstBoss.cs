@@ -76,6 +76,7 @@ public class FirstBoss : MonoBehaviour
 
     private int moveStage = 0;
     private bool canAttack = true;
+    public bool insideWall = false;
     private int lastAttack;
     private int attackChoice = 0;
     private float projectileTimer;
@@ -259,11 +260,33 @@ public class FirstBoss : MonoBehaviour
     {
         if (!canAttack)
         {
-            float xPos = idlePositionStart.x + MathF.Cos(idleAngle) * 0.1f;
-            float yPos = idlePositionStart.y + MathF.Sin(idleAngle) * 0.1f;
+            if (insideWall)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 6 * Time.deltaTime);
+                idlePositionStart = transform.position;
+            }
+            else
+            {
+                float xPos = idlePositionStart.x + MathF.Cos(idleAngle) * 0.1f;
+                float yPos = idlePositionStart.y + MathF.Sin(idleAngle) * 0.1f;
 
-            idleAngle += 5 * Time.deltaTime;
-            transform.position = new Vector3(xPos, yPos, 0);
+                idleAngle += 5 * Time.deltaTime;
+                transform.position = new Vector3(xPos, yPos, 0);
+            }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wall"))
+        {
+            insideWall = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+                if (collision.CompareTag("Wall"))
+        {
+            insideWall = false;
         }
     }
     private void AttackCircle()
@@ -407,30 +430,6 @@ public class FirstBoss : MonoBehaviour
     private void Death()
     {
         gameObject.SetActive(false); //placeholder
-    }
-
-    private void FourthAttackPattern()
-    {
-        // 0: Gets player position at that time, 1: Starts moving towards that position, 2: Decreases speed once it goes too far away from player?
-
-        //float distance;
-        //switch (moveStage)
-        //{
-        //    case 0:
-        //        p4MoveDirection = (player.transform.position - transform.position).normalized;
-        //        moveStage = 1;
-        //        break;
-        //    case 1:
-        //        distance = Vector3.Distance(p4MoveDirection, transform.position);
-        //        transform.position += p4MoveDirection * p4currentMoveSpeed * Time.deltaTime;
-        //        p4currentMoveSpeed += p4MoveSpeedMultiplier * Time.deltaTime;
-        //        p4currentMoveSpeed = Mathf.Clamp(p4currentMoveSpeed, 0, 10);
-        //        if (distance >= 8)
-        //        {
-        //            moveStage = 0;
-        //        }
-        //        break;
-        //}
     }
     private void AttackWheel(int choice = -1)
     {
