@@ -40,10 +40,8 @@ public class MapFog : MonoBehaviour
         }
         else
         {
-            newColor.a = Mathf.Lerp(newColor.a, 0, fadeoutSpeed * Time.deltaTime);
+            newColor.a -= fadeoutSpeed * Time.deltaTime;
             this.GetComponent<SpriteShapeRenderer>().color = newColor;
         }
-
-        Debug.Log(newColor.a);
     }
 }

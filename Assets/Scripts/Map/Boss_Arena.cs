@@ -1,42 +1,59 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Boss_Arena : MonoBehaviour
 {
-    [SerializeField] private GameObject door;
+    [SerializeField] private GameObject entranceDoor;
     [SerializeField] private float speed;
     public bool fightActive;
+    public float doorSwitch;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (fightActive)
-        {
-            CloseDoor();
-        }
-        else
-        {
-            OpenDoor();
-        }
+        Door();
     }
-    private void CloseDoor()
+
+    public void Door()
     {
-        if (door.transform.localScale.x < 1)
+        switch (doorSwitch)
         {
-            door.transform.localScale = new Vector3(Mathf.Lerp(door.transform.localScale.x, 1.5f, speed * Time.deltaTime), 1, 1);
+            case 1:
+                OpenDoor();
+                break;
+            case 2:
+                CloseDoor();
+                break;
         }
     }
     private void OpenDoor()
     {
-        if (door.transform.localScale.x > 0.1f)
+        if (entranceDoor.transform.localScale.x > 0.1f)
         {
-            door.transform.localScale = new Vector3(Mathf.Lerp(door.transform.localScale.x, 0, speed * Time.deltaTime), 1, 1);
+            entranceDoor.transform.localScale = new Vector3(Mathf.Lerp(entranceDoor.transform.localScale.x, 0, speed * Time.deltaTime), 1, 1);
+        }
+        else
+        {
+            doorSwitch = 0;
+        }
+    }
+
+    private void CloseDoor()
+    {
+        if (entranceDoor.transform.localScale.x < 1)
+        {
+            entranceDoor.transform.localScale = new Vector3(Mathf.Lerp(entranceDoor.transform.localScale.x, 1.5f, speed * Time.deltaTime), 1, 1);
+        }
+        else
+        {
+            doorSwitch = 0;
         }
     }
 }

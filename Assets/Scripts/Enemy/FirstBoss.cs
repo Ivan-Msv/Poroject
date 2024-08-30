@@ -12,8 +12,9 @@ using Random = UnityEngine.Random;
 
 public class FirstBoss : MonoBehaviour
 {
-    [Header("Player Related")]
+    [Header("Main Settings")]
     [SerializeField] private GameObject player;
+    [SerializeField] private Boss_Arena bossArea;
     [SerializeField] private float distanceFromPlayer;
     [Space]
     [Header("Projectile List")]
@@ -81,6 +82,7 @@ public class FirstBoss : MonoBehaviour
     private int attackChoice = 0;
     private float projectileTimer;
     private FirstBossHealth healthSystem;
+    private bool fightActive;
 
     void Start()
     {
@@ -91,38 +93,26 @@ public class FirstBoss : MonoBehaviour
 
     void Update()
     {
+        fightActive = bossArea.fightActive;
         distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (attackChoice != 0)
         {
             attackTimerStart += Time.deltaTime;
         }
-        Attack();
 
-        bool debug = true;
-
-        if (debug)
+        if (fightActive)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                AttackWheel(1);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                AttackWheel(2);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                AttackWheel(3);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                AttackWheel(5);
-            }
+            Attack();
+            AttackWheel();
         }
         else
         {
-            AttackWheel();
+            float xPos = idlePositionStart.x + MathF.Cos(idleAngle) * 0.1f;
+            float yPos = idlePositionStart.y + MathF.Sin(idleAngle) * 0.1f;
+
+            idleAngle += 5 * Time.deltaTime;
+            transform.position = new Vector3(xPos, yPos, 0);
         }
     }
     public void SpawnRotatingProjectiles(int amount, float radius, bool shouldMoveForward, bool aroundThePlayer, float rotationSpeed = 70)
