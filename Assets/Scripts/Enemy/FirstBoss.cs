@@ -17,6 +17,7 @@ public class FirstBoss : MonoBehaviour
     [SerializeField] private Canvas bossUI;
     [SerializeField] private GameObject player;
     [SerializeField] private Boss_Arena bossArea;
+    [SerializeField] private GameObject keyItem;
     private float distanceFromPlayer;
     [Space]
     [Header("Projectile List")]
@@ -435,7 +436,9 @@ public class FirstBoss : MonoBehaviour
     }
     private void Death()
     {
-        gameObject.SetActive(false); //placeholder
+        Instantiate(keyItem, transform.position, keyItem.transform.rotation);
+        bossArea.EnableButton();
+        gameObject.SetActive(false);
     }
     private void AttackWheel(int choice = -1)
     {

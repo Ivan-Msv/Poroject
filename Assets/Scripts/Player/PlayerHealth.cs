@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
     [SerializeField] private float iFrameDuration;
+    private PlayerHealthUI healthUI;
     private bool hitBoxActive = true;
     private Color originalColor;
     // Start is called before the first frame update
@@ -14,12 +15,8 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         originalColor = transform.GetComponent<SpriteRenderer>().color;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        healthUI = GetComponentInChildren<PlayerHealthUI>();
+        healthUI.DrawHearts();
     }
     private IEnumerator ActivateIFrames()
     {
@@ -30,12 +27,30 @@ public class PlayerHealth : MonoBehaviour
         hitBoxActive = true;
     }
 
+    public void TakeDamage()
+    {
+        currentHealth--;
+        healthUI.DrawHearts();
+        StartCoroutine(ActivateIFrames());
+    }
+
+    public void HealToFullHP()
+    {
+        currentHealth = maxHealth;
+        healthUI.DrawHearts();
+    }
+    public void UpgradeHealth(int amount)
+    {
+        maxHealth += amount;
+        currentHealth += amount;
+        healthUI.DrawHearts();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy Projectile") && hitBoxActive && gameObject)
         {
-            currentHealth--;
-            StartCoroutine(ActivateIFrames());
+            TakeDamage();
         }
     }
 }

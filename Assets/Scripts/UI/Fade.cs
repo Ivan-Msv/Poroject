@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,11 +42,11 @@ public class Fade : MonoBehaviour
             switch (currentComponent)
             {
                 case Image:
-                    Color newColor = this.gameObject.GetComponent<Image>().color;
-                    newColor.a -= fadeSpeed * Time.deltaTime;
-                    this.gameObject.GetComponent<Image>().color = newColor;
+                    Color imageColor = this.gameObject.GetComponent<Image>().color;
+                    imageColor.a -= fadeSpeed * Time.deltaTime;
+                    this.gameObject.GetComponent<Image>().color = imageColor;
 
-                    if (newColor.a <= 0)
+                    if (imageColor.a <= 0)
                     {
                         fadeOut = false;
                     }
@@ -53,6 +54,16 @@ public class Fade : MonoBehaviour
                 case CanvasGroup:
                     currentComponent.GetComponent<CanvasGroup>().alpha -= fadeSpeed * Time.deltaTime;
                     if (currentComponent.GetComponent<CanvasGroup>().alpha <= 0)
+                    {
+                        fadeOut = false;
+                    }
+                    break;
+                case SpriteRenderer:
+                    Color spriteRendererColor = this.gameObject.GetComponent<SpriteRenderer>().color;
+                    spriteRendererColor.a -= fadeSpeed * Time.deltaTime;
+                    this.gameObject.GetComponent<SpriteRenderer>().color = spriteRendererColor;
+
+                    if (spriteRendererColor.a <= 0)
                     {
                         fadeOut = false;
                     }
@@ -67,11 +78,11 @@ public class Fade : MonoBehaviour
             switch (currentComponent)
             {
                 case Image:
-                    Color newColor = this.gameObject.GetComponent<Image>().color;
-                    newColor.a += fadeSpeed * Time.deltaTime;
-                    this.gameObject.GetComponent<Image>().color = newColor;
+                    Color imageColor = this.gameObject.GetComponent<Image>().color;
+                    imageColor.a += fadeSpeed * Time.deltaTime;
+                    this.gameObject.GetComponent<Image>().color = imageColor;
 
-                    if (newColor.a >= 1)
+                    if (imageColor.a >= 1)
                     {
                         fadeIn = false;
                     }
@@ -83,15 +94,30 @@ public class Fade : MonoBehaviour
                         fadeIn = false;
                     }
                     break;
+                case SpriteRenderer:
+                    Color spriteRendererColor = this.gameObject.GetComponent<SpriteRenderer>().color;
+                    spriteRendererColor.a += fadeSpeed * Time.deltaTime;
+                    this.gameObject.GetComponent<SpriteRenderer>().color = spriteRendererColor;
+
+                    if (spriteRendererColor.a <= 0)
+                    {
+                        fadeIn = false;
+                    }
+                    break;
             }
         }
     }
     private void GetObjectComponent()
     {
-        currentComponent = this.GetComponent<Image>();
-        if (this.GetComponent<Image>() == null)
+        Type[] typeList = { typeof(CanvasGroup), typeof(Image), typeof(SpriteRenderer)};
+
+        foreach (Type type in typeList)
         {
-            currentComponent = this.GetComponent<CanvasGroup>();
+            currentComponent = GetComponent(type);
+            if (currentComponent != null)
+            {
+                break;
+            }
         }
     }
 }

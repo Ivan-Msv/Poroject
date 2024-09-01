@@ -4,24 +4,53 @@ using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
+    [SerializeField] private ItemEffect itemFeature;
     private DialogueData data;
+    private PlayerHealth playerHP;
+    private Fade objectFade;
+    private Fade textFade;
     private bool canBeInteracted;
-    private HealthUpgradeItem hpUpgrade;
     // Start is called before the first frame update
     void Start()
     {
         data = GetComponent<DialogueData>();
-        hpUpgrade = GetComponent<HealthUpgradeItem>();
+        playerHP = FindAnyObjectByType<PlayerHealth>();
+        objectFade = this.gameObject.GetComponent<Fade>();
+        textFade = transform.GetChild(0).GetComponent<Fade>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        DialogueTrigger();
+        InteractTextAppearance();
+    }
+
+    private void DialogueTrigger()
+    {
         if (canBeInteracted && Input.GetKeyDown(KeyCode.E) && !data.dialogueActive)
         {
             data.TriggerDialogue();
-            hpUpgrade.UpgradeHealth();
-            this.gameObject.SetActive(false);
+            itemFeature.ApplyEffect(playerHP.gameObject);
+            StartCoroutine(RemoveObject());
+        }
+    }
+    private IEnumerator RemoveObject()
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        objectFade.StartFadeOut();
+        yield return new WaitForSeconds(1);
+        gameObject.SetActive(false);
+    }
+    private void InteractTextAppearance()
+    {
+        if (Vector3.Distance(this.transform.position, playerHP.transform.position) <= 3)
+        {
+            textFade.StartFadeIn();
+        }
+        else
+        {
+            textFade.StartFadeOut();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
