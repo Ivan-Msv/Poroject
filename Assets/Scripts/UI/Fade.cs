@@ -18,11 +18,23 @@ public class Fade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        StartFadeOut();
-        StartFadeIn();
+        FadeOutSystem();
+        FadeInSystem();
     }
 
-    private void StartFadeOut()
+    public void StartFadeOut()
+    {
+        fadeIn = false;
+        fadeOut = true;
+    }
+
+    public void StartFadeIn()
+    {
+        fadeOut = false;
+        fadeIn = true;
+    }
+
+    private void FadeOutSystem()
     {
         if (fadeOut)
         {
@@ -48,7 +60,7 @@ public class Fade : MonoBehaviour
             }
         }
     }
-    private void StartFadeIn()
+    private void FadeInSystem()
     {
         if (fadeIn)
         {
@@ -74,7 +86,6 @@ public class Fade : MonoBehaviour
             }
         }
     }
-
     private void GetObjectComponent()
     {
         currentComponent = this.GetComponent<Image>();

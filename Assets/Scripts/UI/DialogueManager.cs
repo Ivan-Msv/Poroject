@@ -10,6 +10,7 @@ public class DialogueManager : MonoBehaviour
     private CanvasGroup thisCanvas;
     private Fade fade;
     private Queue<string> sentences;
+    private DialogueData data;
 
     private void Start()
     {
@@ -29,9 +30,11 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(DialogueData data)
+    public void StartDialogue(DialogueData getData)
     {
-        fade.fadeIn = true;
+        data = getData;
+
+        fade.StartFadeIn();
         sentences.Clear();
         foreach (string newSentence in data.sentences)
         {
@@ -56,6 +59,7 @@ public class DialogueManager : MonoBehaviour
     }
     private void EndDialogue()
     {
-        fade.fadeOut = true;
+        data.dialogueActive = false;
+        fade.StartFadeOut();
     }
 }
