@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Button : MonoBehaviour
 {
-    [SerializeField] private ShortcutDoor door;
-    [SerializeField] private Boss_Arena bossArea;
+    [SerializeField] private Door door;
+    [SerializeField] private FirstBoss boss;
     private Animator anim;
     public bool canBePressed = false;
     // Start is called before the first frame update
@@ -19,7 +19,7 @@ public class Button : MonoBehaviour
     {
         anim.SetBool("canBePressed", canBePressed);
 
-        if (canBePressed)
+        if (canBePressed && !boss.isActiveAndEnabled)
         {
             this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
         }

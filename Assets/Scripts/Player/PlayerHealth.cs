@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int currentHealth;
+    public int maxHealth;
+    public int currentHealth;
     [SerializeField] private float iFrameDuration;
     private bool hitBoxActive = true;
     private Color originalColor;

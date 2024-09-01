@@ -5,6 +5,7 @@ using UnityEngine;
 public class CutScene : MonoBehaviour
 {
     [SerializeField] private Boss_Arena bossArea;
+    [SerializeField] private Door entranceDoor;
     [SerializeField] private float sceneDuration;
     private SwitchCamera cameraSwitch;
     // Start is called before the first frame update
@@ -16,7 +17,7 @@ public class CutScene : MonoBehaviour
     private IEnumerator CutSceneStart()
     {
         Destroy(this.gameObject.GetComponent<Collider2D>());
-        bossArea.doorSwitch = 2;
+        entranceDoor.shouldClose = true;
         cameraSwitch.SetCamera();
         yield return new WaitForSeconds(sceneDuration);
         cameraSwitch.SetCamera();

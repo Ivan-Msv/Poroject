@@ -6,31 +6,81 @@ using UnityEngine.UI;
 public class Fade : MonoBehaviour
 {
     [SerializeField] private float fadeSpeed;
-    private bool fadeOut;
+    public bool fadeOut;
+    public bool fadeIn;
+    private Component currentComponent;
     // Start is called before the first frame update
     void Start()
     {
-        fadeOut = true;
+        GetObjectComponent();
     }
 
     // Update is called once per frame
     void Update()
     {
         StartFadeOut();
+        StartFadeIn();
     }
 
     private void StartFadeOut()
     {
         if (fadeOut)
         {
-            Color newColor = this.gameObject.GetComponent<Image>().color;
-            newColor.a -= fadeSpeed * Time.deltaTime;
-            this.gameObject.GetComponent<Image>().color = newColor;
-            
-            if (newColor.a <= 0)
+            switch (currentComponent)
             {
-                fadeOut = false;
+                case Image:
+                    Color newColor = this.gameObject.GetComponent<Image>().color;
+                    newColor.a -= fadeSpeed * Time.deltaTime;
+                    this.gameObject.GetComponent<Image>().color = newColor;
+
+                    if (newColor.a <= 0)
+                    {
+                        fadeOut = false;
+                    }
+                    break;
+                case CanvasGroup:
+                    currentComponent.GetComponent<CanvasGroup>().alpha -= fadeSpeed * Time.deltaTime;
+                    if (currentComponent.GetComponent<CanvasGroup>().alpha <= 0)
+                    {
+                        fadeOut = false;
+                    }
+                    break;
             }
+        }
+    }
+    private void StartFadeIn()
+    {
+        if (fadeIn)
+        {
+            switch (currentComponent)
+            {
+                case Image:
+                    Color newColor = this.gameObject.GetComponent<Image>().color;
+                    newColor.a += fadeSpeed * Time.deltaTime;
+                    this.gameObject.GetComponent<Image>().color = newColor;
+
+                    if (newColor.a >= 1)
+                    {
+                        fadeIn = false;
+                    }
+                    break;
+                case CanvasGroup:
+                    currentComponent.GetComponent<CanvasGroup>().alpha += fadeSpeed * Time.deltaTime;
+                    if (currentComponent.GetComponent<CanvasGroup>().alpha >= 1)
+                    {
+                        fadeIn = false;
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void GetObjectComponent()
+    {
+        currentComponent = this.GetComponent<Image>();
+        if (this.GetComponent<Image>() == null)
+        {
+            currentComponent = this.GetComponent<CanvasGroup>();
         }
     }
 }

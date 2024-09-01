@@ -13,9 +13,11 @@ using Random = UnityEngine.Random;
 public class FirstBoss : MonoBehaviour
 {
     [Header("Main Settings")]
+    [SerializeField] private string bossName;
+    [SerializeField] private Canvas bossUI;
     [SerializeField] private GameObject player;
     [SerializeField] private Boss_Arena bossArea;
-    [SerializeField] private float distanceFromPlayer;
+    private float distanceFromPlayer;
     [Space]
     [Header("Projectile List")]
     [SerializeField] private GameObject rotatingProjectile;
@@ -31,7 +33,7 @@ public class FirstBoss : MonoBehaviour
     private float axisProjectileSpeedMultiplier;
     [Space]
     [Header("Attack Settings")]
-    private float attackTimerStart;
+    private float attackTimer;
     private float attackTimerDuration;
     [SerializeField] private float attackCooldownDuration = 1.5f;
     [Space]
@@ -89,6 +91,7 @@ public class FirstBoss : MonoBehaviour
         idlePositionStart = transform.position;
         p3CurrentRotationSpeed = p3RotationSpeed;
         healthSystem = GetComponent<FirstBossHealth>();
+        bossUI.GetComponentInChildren<TextMeshProUGUI>().text = bossName;
     }
 
     void Update()
@@ -98,16 +101,19 @@ public class FirstBoss : MonoBehaviour
 
         if (attackChoice != 0)
         {
-            attackTimerStart += Time.deltaTime;
+            attackTimer += Time.deltaTime;
         }
 
         if (fightActive)
         {
+            bossUI.enabled = true;
             Attack();
             AttackWheel();
         }
         else
         {
+            bossUI.enabled = false;
+
             float xPos = idlePositionStart.x + MathF.Cos(idleAngle) * 0.1f;
             float yPos = idlePositionStart.y + MathF.Sin(idleAngle) * 0.1f;
 
@@ -199,12 +205,14 @@ public class FirstBoss : MonoBehaviour
         canAttack = false;
         yield return new WaitForSeconds(attackCooldownDuration);
         canAttack = true;
-        attackTimerStart = 0f;
+        attackTimer = 0f;
     }
     private void Attack()
     {
-        if (canAttack && attackTimerStart <= attackTimerDuration)
+        if (canAttack && attackTimer <= attackTimerDuration)
         {
+            AttackCancelCheck();
+
             projectileTimer += Time.deltaTime;
             if (attackChoice == 1)
             {
@@ -232,9 +240,17 @@ public class FirstBoss : MonoBehaviour
             BeginCooldown();
         }
     }
+    private void AttackCancelCheck()
+    {
+        if (healthSystem.currentHealth <= 0 && attackChoice != 5 && attackChoice != 0)
+        {
+            attackTimer = 200;
+            BeginCooldown();
+        }
+    }
     private void BeginCooldown()
     {
-        if (attackTimerStart >= attackTimerDuration && canAttack)
+        if (attackTimer >= attackTimerDuration && canAttack)
         {
             StartCoroutine(AttackCooldownTimer());
             lastAttack = attackChoice;
@@ -274,7 +290,7 @@ public class FirstBoss : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-                if (collision.CompareTag("Wall"))
+        if (collision.CompareTag("Wall"))
         {
             insideWall = false;
         }
@@ -404,7 +420,7 @@ public class FirstBoss : MonoBehaviour
         float yPos = MathF.Sin(spAngle);
         Vector3 verticalDirection = new Vector3(xPos, yPos, 0).normalized;
         Vector3 horizontalDirection = new Vector3(-yPos, xPos, 0).normalized;
-        if (projectileTimer >= spProjectileFrequency && attackTimerStart <= attackTimerDuration - 1)
+        if (projectileTimer >= spProjectileFrequency && attackTimer <= attackTimerDuration - 1)
         {
             SpawnProjectiles(explodingProjectile, 1, 0, verticalDirection);
             SpawnProjectiles(explodingProjectile, 1, 0, -verticalDirection);
