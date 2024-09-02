@@ -10,6 +10,7 @@ public class ItemPickup : MonoBehaviour
     private Fade objectFade;
     private Fade textFade;
     private bool canBeInteracted;
+    private float playerDistance;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +23,12 @@ public class ItemPickup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerDistance = Vector3.Distance(this.transform.position, playerHP.transform.position);
         DialogueTrigger();
-        InteractTextAppearance();
+        if (playerDistance <= 8)
+        {
+            InteractTextAppearance();
+        }
     }
 
     private void DialogueTrigger()
@@ -44,7 +49,7 @@ public class ItemPickup : MonoBehaviour
     }
     private void InteractTextAppearance()
     {
-        if (Vector3.Distance(this.transform.position, playerHP.transform.position) <= 3)
+        if (playerDistance <= 3)
         {
             textFade.StartFadeIn();
         }
