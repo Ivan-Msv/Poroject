@@ -9,6 +9,11 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float projectileFrequency;
     private float timer;
 
+    private void Start()
+    {
+        ProjectilePoolSystem.instance.InitNewPool(playerProjectile, 10);
+    }
+
     void Update()
     {
         timer += Time.deltaTime;
@@ -17,7 +22,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (Input.GetMouseButton(0) && timer >= projectileFrequency)
         {
-            GameObject newProjectile = Instantiate(playerProjectile, spawnPoint.position, transform.rotation);
+            GameObject newProjectile = ProjectilePoolSystem.instance.GetObject(playerProjectile, spawnPoint.position, transform.rotation);
             newProjectile.GetComponent<PlayerProjectile>().SetDirection(spawnPoint.position, direction);
             timer = 0;
         }

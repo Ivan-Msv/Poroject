@@ -15,11 +15,19 @@ public class RotatingProjectile : MonoBehaviour
     private Vector3 moveDirection;
     private Vector3 rotationPos;
     private Vector3 spawnScale;
-    // Start is called before the first frame update
-    void Start()
+    private float spawnSpeed;
+
+    void Awake()
     {
         spawnScale = transform.localScale;
+        spawnSpeed = moveSpeed;
         transform.localScale = Vector3.zero;
+    }
+
+    private void OnDisable()
+    {
+        transform.localScale = Vector3.zero;
+        moveSpeed = spawnSpeed;
     }
 
     // Update is called once per frame
@@ -62,7 +70,7 @@ public class RotatingProjectile : MonoBehaviour
         transform.localScale *= 1 - decaySpeed * Time.deltaTime;
         if (transform.localScale.x <= 0.1f)
         {
-            Destroy(gameObject);
+            ProjectilePoolSystem.instance.ReturnToPool(gameObject);
         }
     }
 

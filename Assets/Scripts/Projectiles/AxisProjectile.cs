@@ -12,11 +12,19 @@ public class AxisProjectile : MonoBehaviour
     private Vector3 parentPosition;
     private Vector3 directionAxis;
     private Vector3 spawnScale;
-    // Start is called before the first frame update
+    private float spawnSpeed;
+
     void Start()
     {
         spawnScale = transform.localScale;
+        spawnSpeed = moveSpeed;
         transform.localScale = Vector3.zero;
+    }
+
+    private void OnDisable()
+    {
+        transform.localScale = Vector3.zero;
+        moveSpeed = spawnSpeed;
     }
 
     // Update is called once per frame

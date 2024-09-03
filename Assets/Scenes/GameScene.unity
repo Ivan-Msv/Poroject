@@ -456,7 +456,7 @@ MonoBehaviour:
   player: {fileID: 1353001384}
   bossArea: {fileID: 1667502267}
   keyItem: {fileID: 1935393139054456480, guid: c1f0ba1e721ffc945a452adde55a6fe9, type: 3}
-  rotatingProjectile: {fileID: 4449727507016471927, guid: 7ed8524f80b1937479e293080604f093, type: 3}
+  rotatingProjectile: {fileID: 4449727507016471927, guid: 8510ca7bab7b39e4abed6b16b5bb7bff, type: 3}
   axisProjectile: {fileID: 6241886411823918275, guid: 662f47a1dd91fa94b902b5cdbf618582, type: 3}
   explodingProjectile: {fileID: 7709948029733244176, guid: e25ac72eb70f08548922c4a3017543a4, type: 3}
   rotatingProjectileAmount: 10
@@ -3968,6 +3968,50 @@ Transform:
   - {fileID: 2065296095}
   m_Father: {fileID: 1295536893}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &585115537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 585115539}
+  - component: {fileID: 585115538}
+  m_Layer: 0
+  m_Name: Projectile Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &585115538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585115537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33888908378d0604d9ffda651288fb4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &585115539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585115537}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 24.212378, y: -6.808246, z: 12.932108}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &588020718
 GameObject:

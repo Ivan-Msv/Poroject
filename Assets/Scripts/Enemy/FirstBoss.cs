@@ -89,6 +89,11 @@ public class FirstBoss : MonoBehaviour
 
     void Start()
     {
+        // Create pools for each projectile
+        ProjectilePoolSystem.instance.InitNewPool(rotatingProjectile, 1000);
+        ProjectilePoolSystem.instance.InitNewPool(axisProjectile, 1000);
+        ProjectilePoolSystem.instance.InitNewPool(explodingProjectile, 50);
+
         idlePositionStart = transform.position;
         p3CurrentRotationSpeed = p3RotationSpeed;
         healthSystem = GetComponent<FirstBossHealth>();
@@ -163,7 +168,7 @@ public class FirstBoss : MonoBehaviour
                 Vector3 projectileVector = new Vector3(projectileXDirection, projectileYDirection, 0);
                 Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
 
-                GameObject projectileInstance = ProjectilePoolManager.SpawnObject(rotatingProjectile, projectileVector, transform.rotation);
+                GameObject projectileInstance = ProjectilePoolSystem.instance.GetObject(rotatingProjectile, projectileVector, transform.rotation);
                 projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward, attackTimerDuration, rotationSpeed);
             }
             else
@@ -174,7 +179,7 @@ public class FirstBoss : MonoBehaviour
                 Vector3 projectileVector = new Vector3(projectileXDirection, projectileYDirection, 0);
                 Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
 
-                GameObject projectileInstance = ProjectilePoolManager.SpawnObject(rotatingProjectile, currentPos, transform.rotation);
+                GameObject projectileInstance = ProjectilePoolSystem.instance.GetObject(rotatingProjectile, currentPos, transform.rotation);
                 projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward, attackTimerDuration, rotationSpeed);
             }
 
@@ -202,7 +207,7 @@ public class FirstBoss : MonoBehaviour
         {
             float xPos = leftBound.x + stepX * i;
             Vector3 newPos = new Vector3(xPos, transform.position.y, 0);
-            GameObject newProjectile = ProjectilePoolManager.SpawnObject(projectile, newPos, newRotation);
+            GameObject newProjectile = ProjectilePoolSystem.instance.GetObject(projectile, newPos, newRotation);
             if (projectile.GetComponent<AxisProjectile>())
             {
                 newProjectile.GetComponent<AxisProjectile>().SetDirection(transform.position, axis, axisProjectileSpeed, axisProjectileSpeedMultiplier, attackTimerDuration);

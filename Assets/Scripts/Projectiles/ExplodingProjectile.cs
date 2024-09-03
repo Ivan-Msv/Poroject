@@ -21,11 +21,19 @@ public class ExplodingProjectile : MonoBehaviour
     private Vector3 directionAxis;
     private Vector3 spawnScale;
     private float timeTillDecay;
-    // Start is called before the first frame update
-    void Start()
+    private float spawnSpeed;
+
+    void Awake()
     {
         spawnScale = transform.localScale;
+        spawnSpeed = mainProjectileSpeed;
         transform.localScale = Vector3.zero;
+    }
+
+    private void OnDisable()
+    {
+        transform.localScale = Vector3.zero;
+        mainProjectileSpeed = spawnSpeed;
     }
 
     // Update is called once per frame
@@ -77,7 +85,7 @@ public class ExplodingProjectile : MonoBehaviour
             Vector3 projectileVector = new Vector3(projectileXDirection, projectileYDirection, 0);
             Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
 
-            GameObject projectileInstance = Instantiate(rotatingProjectile, currentPos, Quaternion.identity);
+            GameObject projectileInstance = ProjectilePoolSystem.instance.GetObject(rotatingProjectile, currentPos, Quaternion.identity);
             projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, true, timeTillDecay - mainProjectileDecayTime, 70, explodingProjectileSpeed);
 
             angle += angleStep;

@@ -9,11 +9,20 @@ public class PlayerProjectile : MonoBehaviour
     [SerializeField] private float projectileMaxDistance;
     private Vector3 moveDirection;
     private Vector3 startPos;
-    private Rigidbody2D rb;
-    // Start is called before the first frame update
-    void Start()
+
+    private float startSpeed;
+    private Vector3 startScale;
+
+    void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        startScale = transform.localScale;
+        startSpeed = projectileSpeed;
+    }
+
+    private void OnDisable()
+    {
+        transform.localScale = startScale;
+        projectileSpeed = startSpeed;
     }
 
     // Update is called once per frame
@@ -33,7 +42,7 @@ public class PlayerProjectile : MonoBehaviour
         transform.localScale *= 1 - 2 * Time.deltaTime;
         if (transform.localScale.x <= 0.01f)
         {
-            Destroy(gameObject);
+            ProjectilePoolSystem.instance.ReturnToPool(gameObject);
         }
     }
     public void SetDirection(Vector3 spawnPoint, Vector3 direction)
@@ -46,7 +55,7 @@ public class PlayerProjectile : MonoBehaviour
     {
         if (!collision.CompareTag("Enemy Projectile") && !collision.CompareTag("Player") && !collision.CompareTag("Player Projectile"))
         {
-            Destroy(gameObject);
+            ProjectilePoolSystem.instance.ReturnToPool(gameObject);
         }
     }
 }
