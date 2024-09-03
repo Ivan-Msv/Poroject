@@ -207,6 +207,87 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &63065926
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1935393139054456475, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: nickname
+      value: ???
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456475, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: sentences.Array.data[0]
+      value: You consume core fragments. Your void core grows stronger...
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456480, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_Name
+      value: Health pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 52.504
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 21.515
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456486, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456487, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -136535425, guid: c1c7b8893d629c847bc77d56be3d9676, type: 3}
+    - target: {fileID: 1935393139054456487, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_Color.b
+      value: 0.97686845
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456487, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935393139054456487, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
+      propertyPath: m_Color.r
+      value: 0.3254717
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 73395f0191cfebc4291b99f30501038e, type: 3}
 --- !u!1 &105010178
 GameObject:
   m_ObjectHideFlags: 0
@@ -21294,6 +21375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textVisual: {fileID: 626406324}
   nameVisual: {fileID: 1849375723}
+  dialogueActive: 0
 --- !u!225 &1310996410
 CanvasGroup:
   m_ObjectHideFlags: 0
