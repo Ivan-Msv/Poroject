@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4449727507016471925}
   - component: {fileID: 4449727507016471924}
   - component: {fileID: -1492630916686190246}
-  - component: {fileID: -6600099002018251192}
-  m_Layer: 0
+  - component: {fileID: 6794016569081665912}
+  m_Layer: 7
   m_Name: Projectile_Triangle
   m_TagString: Enemy Projectile
   m_Icon: {fileID: 0}
@@ -104,8 +104,8 @@ MonoBehaviour:
   rotationSpeedMultiplier: 6.5
   timeTillDecay: 5.1
   decaySpeed: 3
---- !u!60 &-6600099002018251192
-PolygonCollider2D:
+--- !u!61 &6794016569081665912
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -127,13 +127,6 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.002123367, y: 0.12635049}
-      - {x: -0.12451008, y: 0.062410258}
-      - {x: -0.1242917, y: -0.0013139881}
-      - {x: -0.06573026, y: -0.12316008}
-      - {x: -0.002318263, y: -0.12638938}
-      - {x: 0.1231601, y: -0.06573024}
-      - {x: 0.12610066, y: 0.0003488548}
-      - {x: 0.061030254, y: 0.12727007}
+  serializedVersion: 2
+  m_Size: {x: 0.24950363, y: 0.24950363}
+  m_EdgeRadius: 0

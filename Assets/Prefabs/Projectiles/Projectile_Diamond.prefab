@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6241886411823918277}
   - component: {fileID: 6241886411823918276}
   - component: {fileID: 4845336482258661232}
-  - component: {fileID: 1282248938201380091}
-  m_Layer: 0
+  - component: {fileID: 8952412226618464943}
+  m_Layer: 7
   m_Name: Projectile_Diamond
   m_TagString: Enemy Projectile
   m_Icon: {fileID: 0}
@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decaySpeed: 3
---- !u!60 &1282248938201380091
-PolygonCollider2D:
+--- !u!61 &8952412226618464943
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -112,7 +112,7 @@ PolygonCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0017448813, y: -0.048857927}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -122,9 +122,6 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.40077826, y: 0.40227345}
-      - {x: -0.4007782, y: -0.5}
-      - {x: 0.4022734, y: -0.49999997}
-      - {x: 0.40227333, y: 0.40227345}
+  serializedVersion: 2
+  m_Size: {x: 0.7940986, y: 0.90228415}
+  m_EdgeRadius: 0

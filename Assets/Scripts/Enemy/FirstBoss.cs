@@ -105,11 +105,27 @@ public class FirstBoss : MonoBehaviour
             attackTimer += Time.deltaTime;
         }
 
+        bool debug = true;
+
         if (fightActive)
         {
             bossUI.enabled = true;
             Attack();
-            AttackWheel();
+            if (!debug)
+            {
+                AttackWheel();
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    AttackWheel(1);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    AttackWheel(5);
+                }
+            }
         }
         else
         {
@@ -147,7 +163,7 @@ public class FirstBoss : MonoBehaviour
                 Vector3 projectileVector = new Vector3(projectileXDirection, projectileYDirection, 0);
                 Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
 
-                GameObject projectileInstance = Instantiate(rotatingProjectile, projectileVector, transform.rotation);
+                GameObject projectileInstance = ProjectilePoolManager.SpawnObject(rotatingProjectile, projectileVector, transform.rotation);
                 projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward, attackTimerDuration, rotationSpeed);
             }
             else
@@ -158,7 +174,7 @@ public class FirstBoss : MonoBehaviour
                 Vector3 projectileVector = new Vector3(projectileXDirection, projectileYDirection, 0);
                 Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
 
-                GameObject projectileInstance = Instantiate(rotatingProjectile, currentPos, transform.rotation);
+                GameObject projectileInstance = ProjectilePoolManager.SpawnObject(rotatingProjectile, currentPos, transform.rotation);
                 projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward, attackTimerDuration, rotationSpeed);
             }
 
@@ -186,7 +202,7 @@ public class FirstBoss : MonoBehaviour
         {
             float xPos = leftBound.x + stepX * i;
             Vector3 newPos = new Vector3(xPos, transform.position.y, 0);
-            GameObject newProjectile = Instantiate(projectile, newPos, newRotation);
+            GameObject newProjectile = ProjectilePoolManager.SpawnObject(projectile, newPos, newRotation);
             if (projectile.GetComponent<AxisProjectile>())
             {
                 newProjectile.GetComponent<AxisProjectile>().SetDirection(transform.position, axis, axisProjectileSpeed, axisProjectileSpeedMultiplier, attackTimerDuration);

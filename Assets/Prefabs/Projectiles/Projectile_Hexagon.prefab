@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7709948029733244206}
   - component: {fileID: 7709948029733244207}
   - component: {fileID: -6314591493499725364}
-  - component: {fileID: -8854653117150749307}
-  m_Layer: 0
+  - component: {fileID: 6317457485156125731}
+  m_Layer: 7
   m_Name: Projectile_Hexagon
   m_TagString: Enemy Projectile
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f97e0f2912ef824da91cd948f61b26e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotatingProjectile: {fileID: 4449727507016471927, guid: 7ed8524f80b1937479e293080604f093, type: 3}
+  rotatingProjectile: {fileID: 4449727507016471927, guid: 8510ca7bab7b39e4abed6b16b5bb7bff, type: 3}
   mainProjectileSpeed: 1
   mainProjectileSpeedMultiplier: 2
   mainProjectileDecayTime: 1
@@ -106,8 +106,8 @@ MonoBehaviour:
   decaySpeed: 3
   explodingAmount: 10
   explodingProjectileSpeed: 0.1
---- !u!60 &-8854653117150749307
-PolygonCollider2D:
+--- !u!61 &6317457485156125731
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -129,9 +129,6 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.5, y: 0.5}
-      - {x: -0.5, y: -0.5}
-      - {x: 0.5, y: -0.5}
-      - {x: 0.5, y: 0.5}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
