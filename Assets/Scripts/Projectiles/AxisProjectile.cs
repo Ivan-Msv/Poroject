@@ -14,7 +14,7 @@ public class AxisProjectile : MonoBehaviour
     private Vector3 spawnScale;
     private float spawnSpeed;
 
-    void Start()
+    void Awake()
     {
         spawnScale = transform.localScale;
         spawnSpeed = moveSpeed;

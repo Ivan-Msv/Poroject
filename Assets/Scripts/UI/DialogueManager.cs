@@ -5,12 +5,23 @@ using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
+    public static DialogueManager instance;
+
     [SerializeField] private TextMeshProUGUI textVisual;
     [SerializeField] private TextMeshProUGUI nameVisual;
     private CanvasGroup thisCanvas;
     private Fade fade;
     private Queue<string> sentences;
     private DialogueData data;
+    public bool dialogueActive;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -21,7 +32,9 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (thisCanvas.alpha == 1)
+        dialogueActive = thisCanvas.alpha == 1;
+
+        if (dialogueActive)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {

@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (DialogueManager.instance.dialogueActive)
+        {
+            return;
+        }
         PlayerMovement();
     }
 
