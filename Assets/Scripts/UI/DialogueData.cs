@@ -7,7 +7,10 @@ public class DialogueData : MonoBehaviour
     public string nickname = "";
     [TextArea()]
     public string[] sentences;
+    public string choice1, choice2;
+    public bool hasChoice = false;
     public bool dialogueActive = false;
+    public int selectedChoice;
 
     public void TriggerDialogue()
     {

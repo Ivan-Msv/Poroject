@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using TMPro;
 using UnityEngine;
 
@@ -7,8 +8,7 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
 
-    [SerializeField] private TextMeshProUGUI textVisual;
-    [SerializeField] private TextMeshProUGUI nameVisual;
+    [SerializeField] private TextMeshProUGUI textVisual, nameVisual, continueText, choice1Visual, choice2Visual;
     private CanvasGroup thisCanvas;
     private Fade fade;
     private Queue<string> sentences;
@@ -32,13 +32,34 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        dialogueActive = thisCanvas.alpha == 1;
+        dialogueActive = thisCanvas.alpha > 0;
 
+        DialogueKeys();
+    }
+
+    private void DialogueKeys()
+    {
         if (dialogueActive)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (data.hasChoice)
             {
-                DisplayNextSentence();
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    data.selectedChoice = 1;
+                    EndDialogue();
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    data.selectedChoice = 2;
+                    EndDialogue();
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    DisplayNextSentence();
+                }
             }
         }
     }
@@ -46,6 +67,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(DialogueData getData)
     {
         data = getData;
+        nameVisual.text = data.nickname;
 
         fade.StartFadeIn();
         sentences.Clear();
@@ -53,7 +75,6 @@ public class DialogueManager : MonoBehaviour
         {
             sentences.Enqueue(newSentence);
         }
-        nameVisual.text = data.nickname;
         DisplayNextSentence();
     }
     private void DisplayNextSentence()
@@ -68,11 +89,26 @@ public class DialogueManager : MonoBehaviour
             string currentSentence = sentences.Dequeue();
 
             textVisual.text = currentSentence;
+
+            if (data.hasChoice)
+            {
+                choice1Visual.text = $"[1] {data.choice1}";
+                choice2Visual.text = $"{data.choice2} [2]";
+                choice1Visual.gameObject.SetActive(true);
+                choice2Visual.gameObject.SetActive(true);
+            }
+            else
+            {
+                continueText.gameObject.SetActive(true);
+            }
         }
     }
     private void EndDialogue()
     {
         data.dialogueActive = false;
         fade.StartFadeOut();
+        choice1Visual.gameObject.SetActive(false);
+        choice2Visual.gameObject.SetActive(false);
+        continueText.gameObject.SetActive(false);
     }
 }
