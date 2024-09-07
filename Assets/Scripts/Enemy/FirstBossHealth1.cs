@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FirstBossHealth : MonoBehaviour
+public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth;
     [SerializeField] private Slider healthSlider;
@@ -19,15 +19,6 @@ public class FirstBossHealth : MonoBehaviour
     void Update()
     {
         healthSlider.value = currentHealth;
-        if (currentHealth <= 0)
-        {
-            Death();
-        }
-    }
-
-    private void Death()
-    {
-        // do something
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

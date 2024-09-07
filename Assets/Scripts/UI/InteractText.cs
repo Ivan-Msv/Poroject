@@ -27,7 +27,7 @@ public class InteractText : MonoBehaviour
 
     private void InteractTextAppearance()
     {
-        if (playerDistance <= 3)
+        if (playerDistance <= 3 && !DialogueManager.instance.dialogueActive)
         {
             textFade.StartFadeIn();
         }

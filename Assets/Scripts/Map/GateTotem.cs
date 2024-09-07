@@ -13,6 +13,7 @@ public class GateTotem : MonoBehaviour
 {
     [TextArea()]
     [SerializeField] private string noKeyText, hasKeyText;
+    [SerializeField] private Sprite newSprite;
     private GateState playerState;
     private DialogueData data;
     private PlayerController player;
@@ -37,7 +38,7 @@ public class GateTotem : MonoBehaviour
         switch (data.selectedChoice)
         {
             case 1:
-                playerState.ChangeKeyState(player);
+                playerState.ChangeKeyState(player, newSprite, data);
                 data.selectedChoice = 0;
                 break;
             case 2:

@@ -21,6 +21,7 @@ public class ExplodingProjectile : MonoBehaviour
     private Vector3 directionAxis;
     private Vector3 spawnScale;
     private float timeTillDecay;
+    private float spawnDecayTime;
     private float spawnSpeed;
 
     void Awake()
@@ -28,12 +29,14 @@ public class ExplodingProjectile : MonoBehaviour
         spawnScale = transform.localScale;
         spawnSpeed = mainProjectileSpeed;
         transform.localScale = Vector3.zero;
+        spawnDecayTime = mainProjectileDecayTime;
     }
 
     private void OnDisable()
     {
         transform.localScale = Vector3.zero;
         mainProjectileSpeed = spawnSpeed;
+        mainProjectileDecayTime = spawnDecayTime;
     }
 
     // Update is called once per frame
@@ -58,8 +61,9 @@ public class ExplodingProjectile : MonoBehaviour
         transform.localScale *= 1 - decaySpeed * Time.deltaTime;
         if (transform.localScale.x <= 0.2f)
         {
-            SpawnExplosion();
-            Destroy(gameObject);
+            // explosion into deleting object
+            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, explodingAmount, 0, timeTillDecay - mainProjectileDecayTime, true, false, 70, explodingProjectileSpeed);
+            ProjectilePoolSystem.instance.ReturnToPool(gameObject);
         }
     }
     private void SpawnProjectile()
@@ -70,27 +74,6 @@ public class ExplodingProjectile : MonoBehaviour
         }
     }
 
-    private void SpawnExplosion()
-    {
-        float angleStep = 360f / explodingAmount;
-        float angle = 0f;
-
-        for (int i = 0; i < explodingAmount; i++)
-        {
-            Vector3 currentPos = transform.position;
-
-            float projectileXDirection = currentPos.x + Mathf.Sin((angle * Mathf.PI) / 180);
-            float projectileYDirection = currentPos.y + Mathf.Cos((angle * Mathf.PI) / 180);
-
-            Vector3 projectileVector = new Vector3(projectileXDirection, projectileYDirection, 0);
-            Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
-
-            GameObject projectileInstance = ProjectilePoolSystem.instance.GetObject(rotatingProjectile, currentPos, Quaternion.identity);
-            projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, true, timeTillDecay - mainProjectileDecayTime, 70, explodingProjectileSpeed);
-
-            angle += angleStep;
-        }
-    }
     public void SetDirection(Vector3 parentPos, Vector3 axis, float decayTime)
     {
         parentPosition = parentPos;

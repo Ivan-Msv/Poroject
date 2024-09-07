@@ -21,7 +21,6 @@ public class FirstBoss : MonoBehaviour
     private float distanceFromPlayer;
     [Space]
     [Header("Projectile List")]
-    [SerializeField] private GameObject rotatingProjectile;
     [SerializeField] private GameObject axisProjectile;
     [SerializeField] private GameObject explodingProjectile;
     [Space]
@@ -84,19 +83,14 @@ public class FirstBoss : MonoBehaviour
     private int lastAttack;
     private int attackChoice = 0;
     private float projectileTimer;
-    private FirstBossHealth healthSystem;
+    private EnemyHealth healthSystem;
     private bool fightActive;
 
     void Start()
     {
-        // Create pools for each projectile
-        ProjectilePoolSystem.instance.InitNewPool(rotatingProjectile, 1000);
-        ProjectilePoolSystem.instance.InitNewPool(axisProjectile, 1000);
-        ProjectilePoolSystem.instance.InitNewPool(explodingProjectile, 50);
-
         idlePositionStart = transform.position;
         p3CurrentRotationSpeed = p3RotationSpeed;
-        healthSystem = GetComponent<FirstBossHealth>();
+        healthSystem = GetComponent<EnemyHealth>();
         bossUI.GetComponentInChildren<TextMeshProUGUI>().text = bossName;
     }
 
@@ -130,6 +124,18 @@ public class FirstBoss : MonoBehaviour
                 {
                     AttackWheel(5);
                 }
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    float xPos = MathF.Cos(spAngle);
+                    float yPos = MathF.Sin(spAngle);
+                    Vector3 verticalDirection = new Vector3(xPos, yPos, 0).normalized;
+                    Vector3 horizontalDirection = new Vector3(-yPos, xPos, 0).normalized;
+                    SpawnProjectiles(explodingProjectile, 1, 0, verticalDirection);
+                    SpawnProjectiles(explodingProjectile, 1, 0, -verticalDirection);
+                    SpawnProjectiles(explodingProjectile, 1, 0, horizontalDirection);
+                    SpawnProjectiles(explodingProjectile, 1, 0, -horizontalDirection);
+                    spAngle += spProjectileRotationSpeed * Time.deltaTime;
+                }
             }
         }
         else
@@ -141,49 +147,6 @@ public class FirstBoss : MonoBehaviour
 
             idleAngle += 5 * Time.deltaTime;
             transform.position = new Vector3(xPos, yPos, 0);
-        }
-    }
-    public void SpawnRotatingProjectiles(int amount, float radius, bool shouldMoveForward, bool aroundThePlayer, float rotationSpeed = 70)
-    {
-        float angleStep = 360f / amount;
-        float angle = 0f;
-        for (int i = 0; i < amount; i++)
-        {
-            Vector3 currentPos = transform.position;
-            switch (aroundThePlayer)
-            {
-                case true:
-                    currentPos = player.transform.position;
-                    break;
-                case false:
-                    currentPos = transform.position;
-                    break;
-            }
-
-            if (radius != 0)
-            {
-                float projectileXDirection = currentPos.x + Mathf.Sin((angle * Mathf.PI) / 180) * radius;
-                float projectileYDirection = currentPos.y + Mathf.Cos((angle * Mathf.PI) / 180) * radius;
-
-                Vector3 projectileVector = new Vector3(projectileXDirection, projectileYDirection, 0);
-                Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
-
-                GameObject projectileInstance = ProjectilePoolSystem.instance.GetObject(rotatingProjectile, projectileVector, transform.rotation);
-                projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward, attackTimerDuration, rotationSpeed);
-            }
-            else
-            {
-                float projectileXDirection = currentPos.x + Mathf.Sin((angle * Mathf.PI) / 180);
-                float projectileYDirection = currentPos.y + Mathf.Cos((angle * Mathf.PI) / 180);
-
-                Vector3 projectileVector = new Vector3(projectileXDirection, projectileYDirection, 0);
-                Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized;
-
-                GameObject projectileInstance = ProjectilePoolSystem.instance.GetObject(rotatingProjectile, currentPos, transform.rotation);
-                projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward, attackTimerDuration, rotationSpeed);
-            }
-
-            angle += angleStep;
         }
     }
     public void SpawnProjectiles(GameObject projectile, int amount, float radius, Vector3 axis, Quaternion? rotation = null)
@@ -218,7 +181,7 @@ public class FirstBoss : MonoBehaviour
             }
             else
             {
-                Debug.Log("Cannot get component from set projectile.");
+                Debug.LogWarning("Cannot get component from set projectile.");
             }
         }
     }
@@ -322,7 +285,7 @@ public class FirstBoss : MonoBehaviour
         int reduceObjects = 0;
         for (int i = 5; i < 10; i++)
         {
-            SpawnRotatingProjectiles(50 - reduceObjects, i, false, true);
+            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 50 - reduceObjects,  i, attackTimerDuration, false, true);
             reduceObjects += 10;
         }
     }
@@ -331,7 +294,7 @@ public class FirstBoss : MonoBehaviour
         int reduceObjects = 0;
         for (int i = 15; i < 20; i++)
         {
-            SpawnRotatingProjectiles(100 + reduceObjects, i, false, false, 5);
+            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 100 + reduceObjects, i, attackTimerDuration, false, false, 5);
             reduceObjects -= i;
         }
     }
@@ -346,7 +309,7 @@ public class FirstBoss : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 2 * Time.deltaTime);
             if (projectileTimer >= p1ProjectileFrequency)
             {
-                SpawnRotatingProjectiles(rotatingProjectileAmount, 0, true, false);
+                ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, rotatingProjectileAmount, 0, attackTimerDuration, true, false);
                 projectileTimer = 0f;
             }
         }
