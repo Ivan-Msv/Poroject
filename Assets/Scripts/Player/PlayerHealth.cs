@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [SerializeField] private Sprite fullHPSprite, halfHPSprite, lowHPSprite, noHPSprite;
+    private SpriteRenderer playerSprite;
     public int maxHealth;
     public int currentHealth;
     [SerializeField] private float iFrameDuration;
@@ -13,10 +15,16 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerSprite = GetComponent<SpriteRenderer>();
         currentHealth = maxHealth;
         originalColor = transform.GetComponent<SpriteRenderer>().color;
         healthUI = GetComponentInChildren<PlayerHealthUI>();
         healthUI.DrawHearts();
+    }
+
+    public void Update()
+    {
+        SpriteManager();
     }
     private IEnumerator ActivateIFrames()
     {
@@ -44,6 +52,26 @@ public class PlayerHealth : MonoBehaviour
         maxHealth += amount;
         currentHealth += amount;
         healthUI.DrawHearts();
+    }
+
+    private void SpriteManager()
+    {
+        if (currentHealth <= 0)
+        {
+            playerSprite.sprite = noHPSprite;
+        }
+        else if (currentHealth <= maxHealth / 3)
+        {
+            playerSprite.sprite = lowHPSprite;
+        }
+        else if (currentHealth <= maxHealth / 2)
+        {
+            playerSprite.sprite = halfHPSprite;
+        }
+        else if (currentHealth == maxHealth)
+        {
+            playerSprite.sprite = fullHPSprite;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

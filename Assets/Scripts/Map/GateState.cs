@@ -8,10 +8,10 @@ public class GateState : MonoBehaviour
     [SerializeField] private PlayerKeyStates keyState;
     [TextArea()]
     [SerializeField] private string newDialogue;
-    public void ChangeKeyState(PlayerController player, Sprite replaceSprite, DialogueData data)
+    public void ChangeKeyState(PlayerController player, Animator anim, DialogueData data)
     {
         player.keyItemState = (int)keyState;
-        gameObject.GetComponent<SpriteRenderer>().sprite = replaceSprite;
+        anim.Play("Totem Glow");
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponentInChildren<InteractText>().gameObject.SetActive(false);
         data.sentences[0] = newDialogue;

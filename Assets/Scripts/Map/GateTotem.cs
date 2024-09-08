@@ -14,6 +14,7 @@ public class GateTotem : MonoBehaviour
     [TextArea()]
     [SerializeField] private string noKeyText, hasKeyText;
     [SerializeField] private Sprite newSprite;
+    private Animator anim;
     private GateState playerState;
     private DialogueData data;
     private PlayerController player;
@@ -21,6 +22,7 @@ public class GateTotem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         playerState = GetComponent<GateState>();
         data = GetComponent<DialogueData>();
         player = FindAnyObjectByType<PlayerController>();
@@ -38,7 +40,7 @@ public class GateTotem : MonoBehaviour
         switch (data.selectedChoice)
         {
             case 1:
-                playerState.ChangeKeyState(player, newSprite, data);
+                playerState.ChangeKeyState(player, anim, data);
                 data.selectedChoice = 0;
                 break;
             case 2:
