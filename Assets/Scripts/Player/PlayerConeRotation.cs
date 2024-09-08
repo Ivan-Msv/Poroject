@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class PlayerConeRotation : MonoBehaviour
 {
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = mousePos - transform.position;
         float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

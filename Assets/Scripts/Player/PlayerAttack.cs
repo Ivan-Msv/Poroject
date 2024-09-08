@@ -10,13 +10,12 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float projectileFrequency;
     private float timer;
 
-    private void Start()
-    {
-        ProjectilePoolSystem.instance.InitNewPool(playerProjectile, 10);
-    }
-
     void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
         timer += Time.deltaTime;
         Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = (new Vector3(mousepos.x, mousepos.y, 0) - transform.parent.position).normalized;

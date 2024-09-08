@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProjectileManager : MonoBehaviour
 {
-    [SerializeField] private GameObject rotatingProjectile, axisProjectile, explodingProjectile;
+    [SerializeField] private GameObject rotatingProjectile, axisProjectile, explodingProjectile, playerProjectile;
     public static ProjectileManager instance;
     public GameObject player;
 
@@ -20,6 +20,7 @@ public class ProjectileManager : MonoBehaviour
     private void Start()
     {
         //Create new projectiles into the pool
+        ProjectilePoolSystem.instance.InitNewPool(playerProjectile, 10);
         ProjectilePoolSystem.instance.InitNewPool(rotatingProjectile, 100);
         ProjectilePoolSystem.instance.InitNewPool(axisProjectile, 100);
         ProjectilePoolSystem.instance.InitNewPool(explodingProjectile, 10);

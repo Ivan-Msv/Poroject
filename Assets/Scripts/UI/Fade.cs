@@ -11,7 +11,7 @@ public class Fade : MonoBehaviour
     public bool fadeIn;
     private Component currentComponent;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         GetObjectComponent();
     }
