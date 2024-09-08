@@ -10,7 +10,7 @@ public class PauseMenu : MonoBehaviour
     private bool gamePaused = false;
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private GameObject confirmationScreen;
-
+    [SerializeField] private GameObject optionMenu;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -35,10 +35,16 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
-        ExitConfirmationScreen();
+        ReturnToPauseMenu();
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         gamePaused = false;
+    }
+
+    public void OptionMenu()
+    {
+        pauseMenuUI.SetActive(false);
+        optionMenu.SetActive(true);
     }
 
     public void GotoMainMenu()
@@ -52,9 +58,10 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         confirmationScreen.SetActive(true);
     }
-    public void ExitConfirmationScreen()
+    public void ReturnToPauseMenu()
     {
         pauseMenuUI.SetActive(true);
+        optionMenu.SetActive(false);
         confirmationScreen.SetActive(false);
     }
 }
