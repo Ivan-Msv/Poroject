@@ -876,7 +876,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Test
+          m_StringArgument: testsound
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &375495236
@@ -948,9 +948,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 370c893db5f1ab4498026846fbf3fbd2, type: 3}
+  - {fileID: 8300000, guid: f6a2cfa166dd3d9438f65fd1d81b98e6, type: 3}
   musicClips:
-  - {fileID: 8300000, guid: d008f951e62dc5b45ac6c826c404c997, type: 3}
+  - {fileID: 8300000, guid: 8f4461d94c1671243b78810544390d0b, type: 3}
   soundVolume: 1
   musicVolume: 1
 --- !u!4 &380586105
@@ -1575,7 +1575,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: test2
+          m_StringArgument: testmusic
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &548673052
