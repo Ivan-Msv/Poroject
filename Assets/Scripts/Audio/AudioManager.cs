@@ -26,9 +26,10 @@ public class AudioManager : MonoBehaviour
     public void PlaySound(string soundName)
     {
         selectedClip = null;
+        soundName = soundName.ToLower();
         foreach (AudioClip clip in audioClips)
         {
-            if (clip.name == soundName)
+            if (clip.name.ToLower() == soundName)
             {
                 selectedClip = clip;
             }
@@ -45,7 +46,7 @@ public class AudioManager : MonoBehaviour
         {
             foreach (AudioClip clip in musicClips)
             {
-                if (clip.name == soundName)
+                if (clip.name.ToLower() == soundName)
                 {
                     selectedClip = clip;
                 }
