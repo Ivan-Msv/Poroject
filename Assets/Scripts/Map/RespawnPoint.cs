@@ -1,30 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
-public enum PlayerKeyStates
+public class RespawnPoint : MonoBehaviour
 {
-    NoKey = 0,
-    HasKey = 1,
-    ConsumedKey = 2
-}
-
-public class GateTotem : MonoBehaviour
-{
-    [TextArea()]
-    [SerializeField] private string noKeyText, hasKeyText;
-    private Animator anim;
-    private GateState playerState;
-    private DialogueData data;
-    private PlayerController player;
+    DialogueData data;
     private bool interactable;
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        anim = GetComponent<Animator>();
-        playerState = GetComponent<GateState>();
         data = GetComponent<DialogueData>();
-        player = FindAnyObjectByType<PlayerController>();
     }
 
     void Update()
@@ -38,7 +23,7 @@ public class GateTotem : MonoBehaviour
         switch (data.selectedChoice)
         {
             case 1:
-                playerState.ChangeKeyState(player, anim, data);
+                RespawnManager.instance.SetPlayerRespawn(this.gameObject);
                 data.selectedChoice = 0;
                 break;
             case 2:
@@ -53,21 +38,20 @@ public class GateTotem : MonoBehaviour
         {
             DialogueOptions();
         }
+
     }
 
     private void DialogueOptions()
     {
-        if ((PlayerKeyStates)player.keyItemState == PlayerKeyStates.HasKey)
+        if (RespawnManager.instance.playerRespawnPoint == this.gameObject)
         {
-            data.sentences[0] = hasKeyText;
-            data.hasChoice = true;
+            data.hasChoice = false;
             data.TriggerDialogue();
         }
         else
         {
-            data.sentences[0] = noKeyText;
-            data.hasChoice = false;
-            data.TriggerDialogue();
+            data.hasChoice = true;
+            data.TriggerChoiceDialogue();
         }
     }
 

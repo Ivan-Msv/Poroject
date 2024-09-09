@@ -6,7 +6,7 @@ public class PlayerConeRotation : MonoBehaviour
 {
     void Update()
     {
-        if (Time.timeScale == 0)
+        if (Time.timeScale == 0 || !RespawnManager.instance.CanMove)
         {
             return;
         }

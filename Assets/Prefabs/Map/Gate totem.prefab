@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44a510f7761c80d4cb70fa5dba87b4d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeSpeed: 1
+  <FadeSpeed>k__BackingField: 0
   fadeOut: 0
   fadeIn: 0
 --- !u!225 &8948339629991757766
@@ -247,7 +247,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noKeyText: Thou dost not possess the requisite item to open the gates.
   hasKeyText: Wouldst thou desire to lose the sacred core and open the gates?
-  gateState: {fileID: 0}
 --- !u!114 &8322640555688380680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyState: 0
+  newDialogue: 
 --- !u!114 &8948339630340261193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +280,7 @@ MonoBehaviour:
   choice2: No
   hasChoice: 1
   dialogueActive: 0
+  selectedChoice: 0
 --- !u!114 &8948339630340261192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44a510f7761c80d4cb70fa5dba87b4d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeSpeed: 1
+  <FadeSpeed>k__BackingField: 1
   fadeOut: 0
   fadeIn: 0
 --- !u!61 &8948339630340261238

@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (DialogueManager.instance.dialogueActive)
+        if (DialogueManager.instance.dialogueActive || !RespawnManager.instance.CanMove)
         {
             return;
         }

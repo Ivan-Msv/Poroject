@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour
     private PlayerHealthUI healthUI;
     private bool hitBoxActive = true;
     private Color originalColor;
-    // Start is called before the first frame update
+
     void Start()
     {
         playerSprite = GetComponent<SpriteRenderer>();

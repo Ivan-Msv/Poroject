@@ -77,6 +77,17 @@ public class DialogueManager : MonoBehaviour
         }
         DisplayNextSentence();
     }
+    public void StartChoiceDialogue(DialogueData getData)
+    {
+        data = getData;
+        nameVisual.text = data.nickname;
+
+        fade.StartFadeIn();
+        sentences.Clear();
+
+        sentences.Enqueue(data.choiceSentence);
+        DisplayNextSentence();
+    }
     private void DisplayNextSentence()
     {
         if (sentences.Count == 0)

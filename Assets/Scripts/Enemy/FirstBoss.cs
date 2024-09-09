@@ -104,9 +104,9 @@ public class FirstBoss : MonoBehaviour
             attackTimer += Time.deltaTime;
         }
 
-        bool debug = true;
+        bool debug = false;
 
-        if (fightActive)
+        if (fightActive && RespawnManager.instance.CanMove)
         {
             bossUI.enabled = true;
             Attack();
@@ -141,9 +141,21 @@ public class FirstBoss : MonoBehaviour
         else
         {
             bossUI.enabled = false;
-
-            float xPos = idlePositionStart.x + MathF.Cos(idleAngle) * 0.1f;
-            float yPos = idlePositionStart.y + MathF.Sin(idleAngle) * 0.1f;
+            healthSystem.HealToFull();
+            PreBossFightMovement();
+        }
+    }
+    private void PreBossFightMovement()
+    {
+        Vector3 spawnPosition = new Vector3(39.77f, 33.71f, 0);
+        if ((transform.position - spawnPosition).magnitude > 1)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, idlePositionStart, 3 * Time.deltaTime); // so he doesn't just teleport on player death
+        }
+        else
+        {
+            float xPos = spawnPosition.x + MathF.Cos(idleAngle) * 0.1f;
+            float yPos = spawnPosition.y + MathF.Sin(idleAngle) * 0.1f;
 
             idleAngle += 5 * Time.deltaTime;
             transform.position = new Vector3(xPos, yPos, 0);
@@ -420,9 +432,12 @@ public class FirstBoss : MonoBehaviour
     }
     private void Death()
     {
-        Instantiate(keyItem, transform.position, keyItem.transform.rotation);
-        bossArea.EnableButton();
-        gameObject.SetActive(false);
+        if (RespawnManager.instance.CanMove && fightActive)
+        {
+            Instantiate(keyItem, transform.position, keyItem.transform.rotation);
+            bossArea.EnableButton();
+            gameObject.SetActive(false);
+        }
     }
     private void AttackWheel(int choice = -1)
     {

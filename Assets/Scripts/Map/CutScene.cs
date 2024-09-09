@@ -8,7 +8,7 @@ public class CutScene : MonoBehaviour
     [SerializeField] private Door entranceDoor;
     [SerializeField] private float sceneDuration;
     private SwitchCamera cameraSwitch;
-    // Start is called before the first frame update
+    private bool firstCutSceneActivated = false;
     void Start()
     {
         cameraSwitch = GetComponent<SwitchCamera>();
@@ -16,7 +16,7 @@ public class CutScene : MonoBehaviour
 
     private IEnumerator CutSceneStart()
     {
-        Destroy(this.gameObject.GetComponent<Collider2D>());
+        this.gameObject.GetComponent<Collider2D>().enabled = false;
         entranceDoor.shouldClose = true;
         cameraSwitch.SetCamera();
         yield return new WaitForSeconds(sceneDuration);
@@ -25,11 +25,39 @@ public class CutScene : MonoBehaviour
         bossArea.fightActive = true;
     }
 
+    private void FightTrigger()
+    {
+        entranceDoor.shouldClose = true;
+        entranceDoor.shouldOpen = false;
+        bossArea.fightActive = true;
+        this.gameObject.GetComponent<Collider2D>().enabled = false;
+    }
+
+    private void CutSceneSystem()
+    {
+        if (firstCutSceneActivated)
+        {
+            FightTrigger();
+        }
+        else
+        {
+            StartCoroutine(CutSceneStart());
+        }
+    }
+    public void ResetCutScene()
+    {
+        firstCutSceneActivated = true;
+        this.gameObject.GetComponent<Collider2D>().enabled = true;
+        entranceDoor.shouldClose = false;
+        entranceDoor.shouldOpen = true;
+        bossArea.fightActive = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            StartCoroutine(CutSceneStart());
+            CutSceneSystem();
         }
     }
 }
