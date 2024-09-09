@@ -51,8 +51,21 @@ public class PlayerProjectile : MonoBehaviour
         startPos = spawnPoint;
     }
 
+    private void AudioSetting(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Boss"))
+        {
+            AudioManager.instance.PlaySound("EnemyHit");
+        }
+        else if (collision.CompareTag("BreakableWall"))
+        {
+            AudioManager.instance.PlaySound("BreakableImpact");
+        }
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        AudioSetting(collision);
         if (!collision.CompareTag("Enemy Projectile") && !collision.CompareTag("Player") && !collision.CompareTag("Player Projectile"))
         {
             ProjectilePoolSystem.instance.ReturnToPool(gameObject);

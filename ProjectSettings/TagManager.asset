@@ -9,6 +9,8 @@ TagManager:
   - Enemy Projectile
   - Player Projectile
   - Wall
+  - Enemy
+  - BreakableWall
   layers:
   - Default
   - TransparentFX

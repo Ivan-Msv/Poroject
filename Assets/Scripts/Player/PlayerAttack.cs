@@ -22,6 +22,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (Input.GetMouseButton(0) && timer >= projectileFrequency)
         {
+            AudioManager.instance.PlaySound("PlayerProjectile");
             GameObject newProjectile = ProjectilePoolSystem.instance.GetObject(playerProjectile, spawnPoint.position, transform.rotation);
             newProjectile.GetComponent<PlayerProjectile>().SetDirection(spawnPoint.position, direction);
             timer = 0;

@@ -16,6 +16,7 @@ public class BreakableObject : MonoBehaviour
     {
         if (objectHealth <= 0)
         {
+            AudioManager.instance.PlaySound("breaking");
             this.gameObject.SetActive(false);
         }
     }
