@@ -31523,7 +31523,7 @@ GameObject:
   - component: {fileID: 1668145028}
   - component: {fileID: 1668145027}
   m_Layer: 5
-  m_Name: Option Menu
+  m_Name: Audio Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34093,7 +34093,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Options
+  m_text: Audio Settings
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ead5660c9ead41d4986d64a2e86187e4, type: 2}
   m_sharedMaterial: {fileID: -8067708239369530460, guid: ead5660c9ead41d4986d64a2e86187e4, type: 2}
