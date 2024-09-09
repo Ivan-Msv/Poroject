@@ -13,7 +13,6 @@ public class GateTotem : MonoBehaviour
 {
     [TextArea()]
     [SerializeField] private string noKeyText, hasKeyText;
-    [SerializeField] private Sprite newSprite;
     private Animator anim;
     private GateState playerState;
     private DialogueData data;
