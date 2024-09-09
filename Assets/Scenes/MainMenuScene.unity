@@ -870,13 +870,13 @@ MonoBehaviour:
       - m_Target: {fileID: 380586104}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySound
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Test
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &375495236
@@ -947,7 +947,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60448e9d2485e5646acaabfc44972342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClips: []
+  audioClips:
+  - {fileID: 8300000, guid: 370c893db5f1ab4498026846fbf3fbd2, type: 3}
+  musicClips:
+  - {fileID: 8300000, guid: d008f951e62dc5b45ac6c826c404c997, type: 3}
   soundVolume: 1
   musicVolume: 1
 --- !u!4 &380586105
@@ -1566,13 +1569,13 @@ MonoBehaviour:
       - m_Target: {fileID: 380586104}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySound
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Test2
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &548673052
