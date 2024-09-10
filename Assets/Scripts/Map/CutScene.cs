@@ -17,11 +17,13 @@ public class CutScene : MonoBehaviour
     private IEnumerator CutSceneStart()
     {
         this.gameObject.GetComponent<Collider2D>().enabled = false;
+        entranceDoor.shouldOpen = false;
         entranceDoor.shouldClose = true;
         cameraSwitch.SetCamera();
         yield return new WaitForSeconds(sceneDuration);
         cameraSwitch.SetCamera();
         yield return new WaitForSeconds(sceneDuration);
+        firstCutSceneActivated = true;
         bossArea.fightActive = true;
     }
 
@@ -46,7 +48,6 @@ public class CutScene : MonoBehaviour
     }
     public void ResetCutScene()
     {
-        firstCutSceneActivated = true;
         this.gameObject.GetComponent<Collider2D>().enabled = true;
         entranceDoor.shouldClose = false;
         entranceDoor.shouldOpen = true;

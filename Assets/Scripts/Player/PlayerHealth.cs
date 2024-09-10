@@ -5,19 +5,18 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private Sprite fullHPSprite, halfHPSprite, lowHPSprite, noHPSprite;
+    [SerializeField] private Animator playerShield;
     private SpriteRenderer playerSprite;
     public int maxHealth;
     public int currentHealth;
     [SerializeField] private float iFrameDuration;
     private PlayerHealthUI healthUI;
     private bool hitBoxActive = true;
-    private Color originalColor;
 
     void Start()
     {
         playerSprite = GetComponent<SpriteRenderer>();
         currentHealth = maxHealth;
-        originalColor = transform.GetComponent<SpriteRenderer>().color;
         healthUI = GetComponentInChildren<PlayerHealthUI>();
         healthUI.DrawHearts();
     }
@@ -29,9 +28,8 @@ public class PlayerHealth : MonoBehaviour
     private IEnumerator ActivateIFrames()
     {
         hitBoxActive = false;
-        transform.GetComponent<SpriteRenderer>().color = Color.white; // placeholder
         yield return new WaitForSeconds(iFrameDuration);
-        transform.GetComponent<SpriteRenderer>().color = originalColor;
+        playerShield.gameObject.SetActive(false);
         hitBoxActive = true;
     }
 
@@ -41,6 +39,8 @@ public class PlayerHealth : MonoBehaviour
         {
             case int n when n > 1:
                 AudioManager.instance.PlaySound("playerhit");
+                playerShield.gameObject.SetActive(true);
+                playerShield.Play("Player Shield");
                 break;
             case 1:
                 AudioManager.instance.PlaySound("playerdeath");
@@ -87,6 +87,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy Projectile") && hitBoxActive && gameObject)
         {
+            ProjectilePoolSystem.instance.ReturnToPool(collision.gameObject);
             TakeDamage();
         }
     }

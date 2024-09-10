@@ -55,7 +55,7 @@ public class EnemyBehavior : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ProjectileManager.instance.SpawnProjectile(this.transform, 5, 5, 1, playerDirection, rotationAngle);
+            ProjectileManager.instance.SpawnProjectile(this.transform, 1, 5, 1, playerDirection, rotationAngle);
         }
     }
 
