@@ -82,7 +82,7 @@ public class RotatingProjectile : MonoBehaviour
     {
         if (transform.localScale.x <= spawnScale.x)
         {
-            transform.localScale += spawnScale * decaySpeed * Time.deltaTime;
+            transform.localScale += spawnScale * (decaySpeed / 3)* Time.deltaTime;
         }
     }
 

@@ -150,7 +150,7 @@ public class FirstBoss : MonoBehaviour
         Vector3 spawnPosition = new Vector3(39.77f, 33.71f, 0);
         if ((transform.position - spawnPosition).magnitude > 1)
         {
-            transform.position = Vector3.MoveTowards(transform.position, idlePositionStart, 3 * Time.deltaTime); // so he doesn't just teleport on player death
+            transform.position = Vector3.MoveTowards(transform.position, spawnPosition, 3 * Time.deltaTime); // so he doesn't just teleport on player death
         }
         else
         {

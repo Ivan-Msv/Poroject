@@ -26,6 +26,12 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    public void SetMaxHealth(int newHealth)
+    {
+        maxHealth = newHealth;
+        healthSlider.maxValue = maxHealth;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player Projectile")

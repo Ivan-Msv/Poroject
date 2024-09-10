@@ -57,7 +57,7 @@ public class AxisProjectile : MonoBehaviour
     {
         if (transform.localScale.x <= spawnScale.x)
         {
-            transform.localScale += spawnScale * decaySpeed * Time.deltaTime;
+            transform.localScale += spawnScale * (decaySpeed / 3) * Time.deltaTime;
         }
     }
     public void SetDirection(Vector3 parentPos, Vector3 axis, float movementSpeed, float movespeedAcceleration, float decayTime)

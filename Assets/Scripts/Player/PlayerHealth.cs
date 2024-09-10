@@ -37,6 +37,15 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage()
     {
+        switch (currentHealth)
+        {
+            case int n when n > 1:
+                AudioManager.instance.PlaySound("playerhit");
+                break;
+            case 1:
+                AudioManager.instance.PlaySound("playerdeath");
+                break;
+        }
         currentHealth--;
         healthUI.DrawHearts();
         StartCoroutine(ActivateIFrames());

@@ -103,7 +103,7 @@ MonoBehaviour:
   mainProjectileSpeedMultiplier: 2
   mainProjectileDecayTime: 1
   mainProjectileRotationSpeed: 0
-  decaySpeed: 3
+  decaySpeed: 10
   explodingAmount: 10
   explodingProjectileSpeed: 0.1
 --- !u!58 &798869734729564845

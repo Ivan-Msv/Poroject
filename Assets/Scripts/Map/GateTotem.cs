@@ -17,7 +17,7 @@ public class GateTotem : MonoBehaviour
     private GateState playerState;
     private DialogueData data;
     private PlayerController player;
-    private bool interactable;
+    [SerializeField] private bool interactable;
     // Start is called before the first frame update
     void Start()
     {
@@ -73,11 +73,17 @@ public class GateTotem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        interactable = true;
+        if (collision.CompareTag("Player"))
+        {
+            interactable = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        interactable = false;
+        if (collision.CompareTag("Player"))
+        {
+            interactable = false;
+        }
     }
 }

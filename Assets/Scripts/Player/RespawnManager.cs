@@ -49,6 +49,7 @@ public class RespawnManager : MonoBehaviour
         yield return new WaitForSeconds(fadeBackground.FadeSpeed);
         ArenaRestart();
         RespawnPlayer();
+        EnemyManager.instance.RespawnAllEnemies();
         deathUI.GetComponent<CanvasGroup>().alpha = 0; // very crude
         fadeBackground.StartFadeOut();
         isRespawning = false;

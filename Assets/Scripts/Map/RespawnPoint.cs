@@ -57,11 +57,17 @@ public class RespawnPoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        interactable = true;
+        if (collision.CompareTag("Player"))
+        {
+            interactable = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        interactable = false;
+        if (collision.CompareTag("Player"))
+        {
+            interactable = false;
+        }
     }
 }

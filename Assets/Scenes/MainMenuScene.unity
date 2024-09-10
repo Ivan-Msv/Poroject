@@ -957,6 +957,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 861814522c205ce4e92d89a0823415de, type: 3}
   - {fileID: 8300000, guid: dd6f6dbb2fc8c9a4b8b4608fbb82540c, type: 3}
   - {fileID: 8300000, guid: c5d15502d0036064d814e8bdbe3b6f18, type: 3}
+  - {fileID: 8300000, guid: 3d2ca195253a68648bf0dfe333824a40, type: 3}
+  - {fileID: 8300000, guid: f0b1ba8b1b622f148a7e6b17267c76d0, type: 3}
   musicClips:
   - {fileID: 8300000, guid: 8f4461d94c1671243b78810544390d0b, type: 3}
   soundVolume: 0.5

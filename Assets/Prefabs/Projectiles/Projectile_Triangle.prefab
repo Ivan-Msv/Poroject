@@ -103,7 +103,7 @@ MonoBehaviour:
   rotationSpeed: 70
   rotationSpeedMultiplier: 6.5
   timeTillDecay: 5.1
-  decaySpeed: 3
+  decaySpeed: 10
 --- !u!58 &7356313986005144249
 CircleCollider2D:
   m_ObjectHideFlags: 0
