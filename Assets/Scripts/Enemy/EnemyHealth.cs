@@ -29,6 +29,7 @@ public class EnemyHealth : MonoBehaviour
     public void SetMaxHealth(int newHealth)
     {
         maxHealth = newHealth;
+        currentHealth = maxHealth;
         healthSlider.maxValue = maxHealth;
     }
 

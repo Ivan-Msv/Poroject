@@ -49,27 +49,37 @@ public class EnemyBehavior : MonoBehaviour
     void Update()
     {
         DeathCheck();
-        TankAttack();
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            GenericAttack();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            TankAttack();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+
+        }
+    }
+
+    private void GenericAttack()
+    {
         Vector3 playerDirection = (ProjectileManager.instance.player.transform.position - transform.position).normalized;
         Quaternion rotationAngle = Quaternion.Euler(0, 0, MathF.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ProjectileManager.instance.SpawnProjectile(this.transform, 1, 5, 1, playerDirection, rotationAngle);
-        }
+        ProjectileManager.instance.SpawnProjectile(this.transform, 1, 5, 1, playerDirection, rotationAngle);
     }
-
-
     private void TankAttack()
     {
-        attackTimer += Time.deltaTime;
-        if (attackTimer >= stats.projectileFrequency)
-        {
-            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, stats.projectileAmount, 0, stats.projectileLifeTime, true, false, 0, 0.3f);
-            attackTimer = 0f;
-        }
+        ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, stats.projectileAmount, 0, stats.projectileLifeTime, true, false, 0, 0.3f);
+        attackTimer = 0f;
+        //attackTimer += Time.deltaTime;
+        //if (attackTimer >= stats.projectileFrequency)
+        //{
+        //    ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, stats.projectileAmount, 0, stats.projectileLifeTime, true, false, 0, 0.3f);
+        //    attackTimer = 0f;
+        //}
     }
-
     private void DeathCheck()
     {
         if (health.currentHealth <= 0)
