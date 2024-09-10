@@ -24,6 +24,7 @@ public class RespawnPoint : MonoBehaviour
         {
             case 1:
                 RespawnManager.instance.SetPlayerRespawn(this.gameObject);
+                FindAnyObjectByType<PlayerHealth>().HealToFullHP();
                 data.selectedChoice = 0;
                 break;
             case 2:
@@ -45,6 +46,7 @@ public class RespawnPoint : MonoBehaviour
     {
         if (RespawnManager.instance.playerRespawnPoint == this.gameObject)
         {
+            FindAnyObjectByType<PlayerHealth>().HealToFullHP();
             data.hasChoice = false;
             data.TriggerDialogue();
         }
