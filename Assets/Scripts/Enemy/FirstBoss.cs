@@ -189,7 +189,7 @@ public class FirstBoss : MonoBehaviour
             }
             else if (projectile.GetComponent<ExplodingProjectile>())
             {
-                newProjectile.GetComponent<ExplodingProjectile>().SetDirection(transform.position, axis, attackTimerDuration);
+                newProjectile.GetComponent<ExplodingProjectile>().SetDirection(transform.position, axis, 1, attackTimerDuration);
             }
             else
             {

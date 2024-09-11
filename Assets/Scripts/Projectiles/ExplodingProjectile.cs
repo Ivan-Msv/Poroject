@@ -74,10 +74,11 @@ public class ExplodingProjectile : MonoBehaviour
         }
     }
 
-    public void SetDirection(Vector3 parentPos, Vector3 axis, float decayTime)
+    public void SetDirection(Vector3 parentPos, Vector3 axis, float projectileMoveSpeed, float decayTime)
     {
         parentPosition = parentPos;
         directionAxis = axis;
         timeTillDecay = decayTime;
+        mainProjectileSpeed = projectileMoveSpeed;
     }
 }

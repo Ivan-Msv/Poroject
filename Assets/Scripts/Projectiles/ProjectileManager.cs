@@ -80,4 +80,15 @@ public class ProjectileManager : MonoBehaviour
             newProjectile.GetComponent<AxisProjectile>().SetDirection(transform.position, projectileMoveDirection, projectileSpeed, 2, projectileDuration);
         }
     }
+
+    public void SpawnExplodingProjectile(Transform spawnObject, int amount, float projectileSpeed, float projectileDuration, Vector3 projectileMoveDirection, Quaternion? rotation = null)
+    {
+        Quaternion newRotation = rotation ?? axisProjectile.transform.rotation;
+
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject newProjectile = ProjectilePoolSystem.instance.GetObject(explodingProjectile, spawnObject.position, newRotation);
+            newProjectile.GetComponent<ExplodingProjectile>().SetDirection(transform.position, projectileMoveDirection, projectileSpeed, projectileDuration);
+        }
+    }
 }

@@ -13,13 +13,15 @@ public struct EnemyStats
     public float projectileFrequency;
     public int projectileAmount;
     public float projectileLifeTime;
-    public EnemyStats(int health, int moveSpeed, float projectileFrequency, int projectileAmount, float projectileLifeTime)
+    public float projectileMoveSpeed;
+    public EnemyStats(int health, int moveSpeed, float projectileFrequency, int projectileAmount, float projectileLifeTime, float projectileMoveSpeed)
     {
         this.Health = health;
         this.moveSpeed = moveSpeed;
         this.projectileFrequency = projectileFrequency;
         this.projectileAmount = projectileAmount;
         this.projectileLifeTime = projectileLifeTime;
+        this.projectileMoveSpeed = projectileMoveSpeed;
     }
 }
 enum EnemyStates
@@ -49,59 +51,84 @@ public class EnemyBehavior : MonoBehaviour
     void Update()
     {
         DeathCheck();
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            GenericAttack();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            TankAttack();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
+        AttackPattern();
+    }
 
+    private void AttackPattern()
+    {
+        attackTimer += Time.deltaTime;
+        switch (Type)
+        {
+            case EnemyType.Suicidal:
+                SuicidalAttack();
+                break;
+            case EnemyType.Generic:
+                GenericAttack();
+                break;
+            case EnemyType.Tank:
+                TankAttack();
+                break;
         }
     }
 
+
+    private void SuicidalAttack()
+    {
+        if (attackTimer >= stats.projectileFrequency)
+        {
+            ProjectileManager.instance.SpawnExplodingProjectile(this.transform, stats.projectileAmount, stats.projectileMoveSpeed, stats.projectileLifeTime, Vector3.zero);
+            attackTimer = 0f;
+        }
+    }
     private void GenericAttack()
     {
-        Vector3 playerDirection = (ProjectileManager.instance.player.transform.position - transform.position).normalized;
-        Quaternion rotationAngle = Quaternion.Euler(0, 0, MathF.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg);
-        ProjectileManager.instance.SpawnProjectile(this.transform, 1, 5, 1, playerDirection, rotationAngle);
+        if (attackTimer >= stats.projectileFrequency)
+        {
+            Vector3 playerDirection = (ProjectileManager.instance.player.transform.position - transform.position).normalized;
+            Quaternion rotationAngle = Quaternion.Euler(0, 0, MathF.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg);
+            ProjectileManager.instance.SpawnProjectile(this.transform, 1, stats.projectileMoveSpeed, stats.projectileLifeTime, playerDirection, rotationAngle);
+            attackTimer = 0f;
+        }
     }
     private void TankAttack()
     {
-        ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, stats.projectileAmount, 0, stats.projectileLifeTime, true, false, 0, 0.3f);
-        attackTimer = 0f;
-        //attackTimer += Time.deltaTime;
-        //if (attackTimer >= stats.projectileFrequency)
-        //{
-        //    ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, stats.projectileAmount, 0, stats.projectileLifeTime, true, false, 0, 0.3f);
-        //    attackTimer = 0f;
-        //}
+        if (attackTimer >= stats.projectileFrequency)
+        {
+            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, stats.projectileAmount, 0, stats.projectileLifeTime, true, false, 0, stats.projectileMoveSpeed);
+            attackTimer = 0f;
+        }
     }
     private void DeathCheck()
     {
         if (health.currentHealth <= 0)
         {
+            if (Type == EnemyType.Suicidal)
+            {
+                ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 30, 0, 2, true, false, 0, 0.5f);
+            }
             EnemyManager.instance.DisableEnemy(this.gameObject, health);
         }
     }
     private EnemyStats SetStatsBasedOnType()
     {
-        EnemyStats stats = new EnemyStats();
+        EnemyStats stats = new();
         switch (Type)
         {
             case EnemyType.Suicidal:
                 stats.Health = 5;
                 stats.moveSpeed = 4;
-                stats.projectileAmount = 20;
+                stats.projectileFrequency = 2f;
+                stats.projectileAmount = 1;
+                stats.projectileLifeTime = 1;
+                stats.projectileMoveSpeed = 0;
                 break;
             case EnemyType.Generic:
                 stats.Health = 10;
                 stats.moveSpeed = 2;
-                stats.projectileFrequency = 0.2f;
+                stats.projectileFrequency = 0.6f;
                 stats.projectileAmount = 1;
+                stats.projectileLifeTime = 1f;
+                stats.projectileMoveSpeed = 2f;
                 break;
             case EnemyType.Tank:
                 stats.Health = 20;
@@ -109,6 +136,7 @@ public class EnemyBehavior : MonoBehaviour
                 stats.projectileFrequency = 0.9f;
                 stats.projectileAmount = 10;
                 stats.projectileLifeTime = 1f;
+                stats.projectileMoveSpeed = 0.3f;
                 break;
         }
 
