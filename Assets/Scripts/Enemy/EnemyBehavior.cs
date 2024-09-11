@@ -45,6 +45,7 @@ public class EnemyBehavior : MonoBehaviour
     private EnemyStats stats;
     private Seeker seeker;
     private Path currentPath;
+    private AIDestinationSetter destination;
     private int currentWayPoint;
     private float outOfRangeTimer;
     private bool aggro;
@@ -55,6 +56,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         enemyPath = GetComponent<AIPath>();
+        destination = GetComponent<AIDestinationSetter>();
         player = FindAnyObjectByType<PlayerHealth>().gameObject;
         stats = SetStatsBasedOnType();
         health = GetComponent<EnemyHealth>();
@@ -62,6 +64,7 @@ public class EnemyBehavior : MonoBehaviour
         EnemySpawnPoint = this.transform.position;
         currentState = EnemyStates.Idle;
 
+        destination.target = player.transform;
         currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
     }
 
