@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7709948029733244207}
   - component: {fileID: -6314591493499725364}
   - component: {fileID: 798869734729564845}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Projectile_Hexagon
   m_TagString: Enemy Projectile
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 140346466, guid: a91b8296074ec40459de2635de39da0a, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0

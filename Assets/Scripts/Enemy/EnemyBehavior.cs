@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
+using Pathfinding;
 
 
 public struct EnemyStats
@@ -26,7 +27,7 @@ public struct EnemyStats
 }
 enum EnemyStates
 {
-    Idle, AwareOfPlayer, FollowingPlayer, MovingBack
+    Idle, AwareOfPlayer, FollowingPlayer, MovingBack // 2 other ones became useless but maybe that will change in the future
 }
 public enum EnemyType
 {
@@ -35,25 +36,111 @@ public enum EnemyType
 public class EnemyBehavior : MonoBehaviour
 {
     [field: SerializeField] public EnemyType Type { get; private set; }
+    [SerializeField] private Vector3[] enemyIdlePoints;
+    [SerializeField] private float timeOutOfRange;
+    private int idlePoints = 0;
+    private GameObject player;
     private EnemyHealth health;
+    private AIPath enemyPath;
     private EnemyStats stats;
+    private Seeker seeker;
+    private Path currentPath;
+    private int currentWayPoint;
+    private float outOfRangeTimer;
+    private bool aggro;
     public Vector3 EnemySpawnPoint { get; private set; }
-    private EnemyStates currentState;
+    [SerializeField] private EnemyStates currentState; // remove serializefield later
     private float attackTimer;
     void Start()
     {
+        seeker = GetComponent<Seeker>();
+        enemyPath = GetComponent<AIPath>();
+        player = FindAnyObjectByType<PlayerHealth>().gameObject;
         stats = SetStatsBasedOnType();
         health = GetComponent<EnemyHealth>();
         health.SetMaxHealth(stats.Health);
         EnemySpawnPoint = this.transform.position;
+        currentState = EnemyStates.Idle;
+
+        currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
     }
 
     void Update()
     {
-        DeathCheck();
-        AttackPattern();
+        if (health.currentHealth <= 0)
+        {
+            Death();
+        }
+        CurrentEnemyState();
+        SwitchStates();
     }
+    private void CurrentEnemyState()
+    {
+        switch (currentState)
+        {
+            case EnemyStates.Idle:
+                enemyPath.enabled = false;
+                IdleMovement();
+                break;
+            case EnemyStates.FollowingPlayer:
+                enemyPath.enabled = true;
+                AttackPattern();
+                break;
+        }
+    }
+    private void SwitchStates()
+    {
+        float playerDistance = Vector2.Distance(player.transform.position, transform.position);
+        if (playerDistance <= 6 || aggro)
+        {
+            currentState = EnemyStates.FollowingPlayer;
+            aggro = false;
+        }
+        if (playerDistance > 8 && currentState == EnemyStates.FollowingPlayer)
+        {
+            outOfRangeTimer += Time.deltaTime;
+            if (outOfRangeTimer >= timeOutOfRange) // so much nesting...
+            {
+                currentWayPoint = 0;
+                currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
+                currentState = EnemyStates.Idle;
+                outOfRangeTimer = 0;
+            }
+        }
+    }
+    private void IdleMovement()
+    {
+        WayPointSystem();
 
+        if (currentWayPoint < currentPath.vectorPath.Count)
+        {
+            float distance = Vector2.Distance(transform.position, currentPath.vectorPath[currentWayPoint]);
+            if (distance <= 0.1f)
+            {
+                currentWayPoint++;
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, currentPath.vectorPath[currentWayPoint], 1.5f * Time.deltaTime);
+            }
+        }
+    }
+    private void WayPointSystem()
+    {
+        if (currentWayPoint >= currentPath.vectorPath.Count)
+        {
+            currentWayPoint = 0;
+            if (idlePoints == enemyIdlePoints.Length - 1)
+            {
+                idlePoints = 0;
+            }
+            else
+            {
+                idlePoints++;
+            }
+            currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
+        }
+    }
     private void AttackPattern()
     {
         attackTimer += Time.deltaTime;
@@ -70,8 +157,6 @@ public class EnemyBehavior : MonoBehaviour
                 break;
         }
     }
-
-
     private void SuicidalAttack()
     {
         if (attackTimer >= stats.projectileFrequency)
@@ -98,16 +183,13 @@ public class EnemyBehavior : MonoBehaviour
             attackTimer = 0f;
         }
     }
-    private void DeathCheck()
+    private void Death()
     {
-        if (health.currentHealth <= 0)
+        if (Type == EnemyType.Suicidal)
         {
-            if (Type == EnemyType.Suicidal)
-            {
-                ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 30, 0, 2, true, false, 0, 0.5f);
-            }
-            EnemyManager.instance.DisableEnemy(this.gameObject, health);
+            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 30, 0, 2, true, false, 0, 0.5f);
         }
+        EnemyManager.instance.DisableEnemy(this.gameObject, health);
     }
     private EnemyStats SetStatsBasedOnType()
     {
@@ -124,7 +206,7 @@ public class EnemyBehavior : MonoBehaviour
                 break;
             case EnemyType.Generic:
                 stats.Health = 10;
-                stats.moveSpeed = 2;
+                stats.moveSpeed = 3;
                 stats.projectileFrequency = 0.6f;
                 stats.projectileAmount = 1;
                 stats.projectileLifeTime = 1f;
@@ -132,7 +214,7 @@ public class EnemyBehavior : MonoBehaviour
                 break;
             case EnemyType.Tank:
                 stats.Health = 20;
-                stats.moveSpeed = 1;
+                stats.moveSpeed = 2;
                 stats.projectileFrequency = 0.9f;
                 stats.projectileAmount = 10;
                 stats.projectileLifeTime = 1f;
@@ -140,6 +222,28 @@ public class EnemyBehavior : MonoBehaviour
                 break;
         }
 
+        enemyPath.maxSpeed = stats.moveSpeed;
+        enemyPath.enabled = false;
+
         return stats;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (Type == EnemyType.Suicidal && collision.CompareTag("Player"))
+        {
+            Death();
+        }
+        if (collision.CompareTag("Player Projectile"))
+        {
+            aggro = true;
+            outOfRangeTimer = 0;
+        }
+        if (collision.CompareTag("EnemyTrigger"))
+        {
+            aggro = false;
+            outOfRangeTimer = timeOutOfRange;
+            currentState = EnemyStates.Idle;
+        }
     }
 }

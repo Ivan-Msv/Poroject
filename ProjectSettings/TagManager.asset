@@ -11,18 +11,19 @@ TagManager:
   - Wall
   - Enemy
   - BreakableWall
+  - EnemyTrigger
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - Wall
+  - Player Projectile
+  - Enemy Projectile
+  - Enemy
   - 
   - 
   - 

@@ -32,7 +32,7 @@ public class AxisProjectile : MonoBehaviour
     {
 
         timeTillDecay -= Time.deltaTime;
-        if (timeTillDecay <= 0 || Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, parentPosition.y, 0)) > 12)
+        if (timeTillDecay <= 0)
         {
             DeleteProjectile();
         }
@@ -50,7 +50,7 @@ public class AxisProjectile : MonoBehaviour
         transform.localScale *= 1 - decaySpeed * Time.deltaTime;
         if (transform.localScale.x <= 0.2f)
         {
-            Destroy(gameObject);
+            ProjectilePoolSystem.instance.ReturnToPool(this.gameObject);
         }
     }
     private void SpawnProjectile()

@@ -43,7 +43,7 @@ public class ExplodingProjectile : MonoBehaviour
     void Update()
     {
         mainProjectileDecayTime -= Time.deltaTime;
-        if (mainProjectileDecayTime <= 0 || Vector3.Distance(new Vector3(0, transform.position.y, 0), new Vector3(0, parentPosition.y, 0)) > 12)
+        if (mainProjectileDecayTime <= 0)
         {
             DeleteProjectile();
         }

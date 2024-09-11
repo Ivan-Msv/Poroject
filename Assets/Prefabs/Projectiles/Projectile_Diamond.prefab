@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6241886411823918276}
   - component: {fileID: 4845336482258661232}
   - component: {fileID: 8952412226618464943}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Projectile_Diamond
   m_TagString: Enemy Projectile
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 751398877, guid: 7d99892a14ef20245b11727b0187cc1f, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0

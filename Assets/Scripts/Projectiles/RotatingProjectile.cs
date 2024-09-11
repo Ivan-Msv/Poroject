@@ -38,7 +38,7 @@ public class RotatingProjectile : MonoBehaviour
     void Update()
     {
         timeTillDecay -= Time.deltaTime;
-        if (timeTillDecay <= 0 || Vector3.Distance(transform.position, rotationPos) > 12 && moveForward)
+        if (timeTillDecay <= 0)
         {
             DeleteProjectile();
         }

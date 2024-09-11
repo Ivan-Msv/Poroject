@@ -66,7 +66,7 @@ public class PlayerProjectile : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collision)
     {
         AudioSetting(collision);
-        if (!collision.CompareTag("Enemy Projectile") && !collision.CompareTag("Player") && !collision.CompareTag("Player Projectile"))
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Wall") || collision.CompareTag("BreakableWall"))
         {
             ProjectilePoolSystem.instance.ReturnToPool(gameObject);
         }

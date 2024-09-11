@@ -42,7 +42,7 @@ public class RespawnManager : MonoBehaviour
             }
         }
     }
-    private IEnumerator RespawnAllObjects()
+    public IEnumerator RespawnAllObjects()
     {
         isRespawning = true;
         fadeBackground.StartFadeIn();
