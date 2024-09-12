@@ -113,41 +113,6 @@ public class EnemyBehavior : MonoBehaviour
             }
         }
     }
-    #region oldIdleMovement
-    //private void IdleMovement()
-    //{
-    //    WayPointSystem();
-
-    //    if (currentWayPoint < currentPath.vectorPath.Count)
-    //    {
-    //        float distance = Vector2.Distance(transform.position, currentPath.vectorPath[currentWayPoint]);
-    //        if (distance <= 0.1f)
-    //        {
-    //            currentWayPoint++;
-    //        }
-    //        else
-    //        {
-    //            transform.position = Vector3.MoveTowards(transform.position, currentPath.vectorPath[currentWayPoint], 1.5f * Time.deltaTime);
-    //        }
-    //    }
-    //}
-    //private void WayPointSystem()
-    //{
-    //    if (currentWayPoint >= currentPath.vectorPath.Count)
-    //    {
-    //        currentWayPoint = 0;
-    //        if (idlePoints == enemyIdlePoints.Length - 1)
-    //        {
-    //            idlePoints = 0;
-    //        }
-    //        else
-    //        {
-    //            idlePoints++;
-    //        }
-    //        currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
-    //    }
-    //}
-    #endregion
     private void IdleMovement()
     {
         WayPointSystem();
