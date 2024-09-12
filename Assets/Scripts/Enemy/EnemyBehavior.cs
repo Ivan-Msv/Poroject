@@ -35,20 +35,22 @@ public enum EnemyType
 }
 public class EnemyBehavior : MonoBehaviour
 {
+    private GameObject player;
+    private EnemyHealth health;
+    private EnemyStats stats;
     [field: SerializeField] public EnemyType Type { get; private set; }
     [SerializeField] private Vector3[] enemyIdlePoints;
     [SerializeField] private float timeOutOfRange;
+    [SerializeField] private float idleMoveCooldown = 1;
+    private float outOfRangeTimer;
     private int idlePoints = 0;
-    private GameObject player;
-    private EnemyHealth health;
+    private bool idleCanMove = true;
+    private bool aggro;
     private AIPath enemyPath;
-    private EnemyStats stats;
     private Seeker seeker;
     private Path currentPath;
     private AIDestinationSetter destination;
     private int currentWayPoint;
-    private float outOfRangeTimer;
-    private bool aggro;
     public Vector3 EnemySpawnPoint { get; private set; }
     [SerializeField] private EnemyStates currentState; // remove serializefield later
     private float attackTimer;
@@ -111,6 +113,41 @@ public class EnemyBehavior : MonoBehaviour
             }
         }
     }
+    #region oldIdleMovement
+    //private void IdleMovement()
+    //{
+    //    WayPointSystem();
+
+    //    if (currentWayPoint < currentPath.vectorPath.Count)
+    //    {
+    //        float distance = Vector2.Distance(transform.position, currentPath.vectorPath[currentWayPoint]);
+    //        if (distance <= 0.1f)
+    //        {
+    //            currentWayPoint++;
+    //        }
+    //        else
+    //        {
+    //            transform.position = Vector3.MoveTowards(transform.position, currentPath.vectorPath[currentWayPoint], 1.5f * Time.deltaTime);
+    //        }
+    //    }
+    //}
+    //private void WayPointSystem()
+    //{
+    //    if (currentWayPoint >= currentPath.vectorPath.Count)
+    //    {
+    //        currentWayPoint = 0;
+    //        if (idlePoints == enemyIdlePoints.Length - 1)
+    //        {
+    //            idlePoints = 0;
+    //        }
+    //        else
+    //        {
+    //            idlePoints++;
+    //        }
+    //        currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
+    //    }
+    //}
+    #endregion
     private void IdleMovement()
     {
         WayPointSystem();
@@ -124,9 +161,18 @@ public class EnemyBehavior : MonoBehaviour
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, currentPath.vectorPath[currentWayPoint], 1.5f * Time.deltaTime);
+                if (idleCanMove)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, currentPath.vectorPath[currentWayPoint], 1.5f * Time.deltaTime);
+                }
             }
         }
+    }
+    private IEnumerator IdleCooldown()
+    {
+        idleCanMove = false;
+        yield return new WaitForSeconds(idleMoveCooldown);
+        idleCanMove = true;
     }
     private void WayPointSystem()
     {
@@ -142,6 +188,7 @@ public class EnemyBehavior : MonoBehaviour
                 idlePoints++;
             }
             currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
+            StartCoroutine(IdleCooldown());
         }
     }
     private void AttackPattern()
