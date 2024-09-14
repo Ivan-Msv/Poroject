@@ -40,6 +40,7 @@ public class EnemyManager : MonoBehaviour
             GameObject enemy = temp[i];
             enemy.transform.parent = enemyFolder;
             enemy.transform.position = enemy.GetComponent<EnemyBehavior>().EnemySpawnPoint;
+            enemy.GetComponent<EnemyBehavior>().OnRespawn();
             enemy.SetActive(true);
             deadEnemies.Remove(enemy);
             enemies.Add(enemy);
@@ -48,6 +49,7 @@ public class EnemyManager : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             enemy.transform.position = enemy.GetComponent<EnemyBehavior>().EnemySpawnPoint;
+            enemy.GetComponent<EnemyBehavior>().OnRespawn();
             enemy.GetComponent<EnemyHealth>().HealToFull();
         }
     }

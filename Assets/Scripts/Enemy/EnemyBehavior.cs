@@ -19,13 +19,16 @@ public class EnemyBehavior : MonoBehaviour
 {
     private GameObject player;
     private EnemyHealth health;
-    [SerializeField] private EnemyStats stats;
+    public Vector3 EnemySpawnPoint { get; private set; }
     [field: SerializeField] public EnemyType Type { get; private set; }
+    private EnemyStates currentState;
+    [SerializeField] private EnemyStats stats;
     [SerializeField] private Vector3[] enemyIdlePoints;
     [SerializeField] private float timeOutOfRange;
     [SerializeField] private float idleMoveCooldown = 1;
     private int idlePoints = 0;
     private bool idleCanMove = true;
+    private bool canAggro = true;
     private bool aggro;
     private AIPath enemyPath;
     private Seeker seeker;
@@ -33,8 +36,6 @@ public class EnemyBehavior : MonoBehaviour
     private AIDestinationSetter destination;
     private int currentWayPoint;
     private float playerDistance;
-    public Vector3 EnemySpawnPoint { get; private set; }
-    [SerializeField] private EnemyStates currentState; // remove serializefield later
     private float attackTimer;
     void Start()
     {
@@ -62,6 +63,7 @@ public class EnemyBehavior : MonoBehaviour
         }
         CurrentEnemyState();
         SwitchStates();
+        Debug.LogWarning(seeker.GetCurrentPath().vectorPath.Count);
     }
     private void CurrentEnemyState()
     {
@@ -82,7 +84,7 @@ public class EnemyBehavior : MonoBehaviour
         if (currentState == EnemyStates.Idle)
         {
             enemyPath.canSearch = false;
-            if (playerDistance <= 6 || aggro)
+            if (playerDistance <= 6 && canAggro || aggro)
             {
                 currentState = EnemyStates.FollowingPlayer;
                 aggro = false;
@@ -95,6 +97,7 @@ public class EnemyBehavior : MonoBehaviour
             if (seeker.GetCurrentPath().vectorPath.Count > 7)
             {
                 ResetAggro();
+                StartCoroutine(AggroCooldown()); // sometimes it glitched between 2 states so this helps with enemy not beign stuck in one place shooting projectiles
             }
         }
     }
@@ -123,6 +126,12 @@ public class EnemyBehavior : MonoBehaviour
         idleCanMove = false;
         yield return new WaitForSeconds(idleMoveCooldown);
         idleCanMove = true;
+    }
+    private IEnumerator AggroCooldown()
+    {
+        canAggro = false;
+        yield return new WaitForSeconds(3);
+        canAggro = true;
     }
     private void WayPointSystem()
     {
@@ -199,6 +208,12 @@ public class EnemyBehavior : MonoBehaviour
             ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 30, 0, 2, true, false, 0, 0.5f);
         }
         EnemyManager.instance.DisableEnemy(this.gameObject, health);
+    }
+    public void OnRespawn()
+    {
+        enemyPath.canMove = false;
+        enemyPath.canSearch = false;
+        ResetAggro();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Suicidal Enemy Stats
   m_EditorClassIdentifier: 
   <Health>k__BackingField: 5
-  <MoveSpeed>k__BackingField: 5
+  <MoveSpeed>k__BackingField: 6
   <ProjectileAmount>k__BackingField: 1
   <ProjectileTriggerRange>k__BackingField: 10
-  <ProjectileFrequency>k__BackingField: 2
+  <ProjectileFrequency>k__BackingField: 1
   <ProjectileLifeTime>k__BackingField: 1
   <ProjectileMoveSpeed>k__BackingField: 0
   <ProjectileRotationSpeed>k__BackingField: 0
