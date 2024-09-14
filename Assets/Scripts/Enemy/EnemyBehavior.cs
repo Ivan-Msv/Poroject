@@ -203,9 +203,18 @@ public class EnemyBehavior : MonoBehaviour
     }
     private void Death()
     {
-        if (Type == EnemyType.Suicidal)
+        switch (Type)
         {
-            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 30, 0, 2, true, false, 0, 0.5f);
+            case EnemyType.Suicidal:
+                ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 30, 0, 2, true, false, 0, 0.5f);
+                AudioManager.instance.PlaySound("SuicidalDeath");
+                break;
+            case EnemyType.Generic:
+                AudioManager.instance.PlaySound("GenericDeath");
+                break;
+            case EnemyType.Tank:
+                AudioManager.instance.PlaySound("TankDeath");
+                break;
         }
         EnemyManager.instance.DisableEnemy(this.gameObject, health);
     }

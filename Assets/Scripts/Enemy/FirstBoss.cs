@@ -340,6 +340,7 @@ public class FirstBoss : MonoBehaviour
                     SpawnProjectiles(axisProjectile, axisProjectileAmount, axisProjectileRadius, new Vector3(-0.65f, -1, 0), Quaternion.Euler(0, 0, 65));
                     break;
             }
+            AudioManager.instance.PlaySound("axisprojectile");
             projectileTimer = 0f;
         }
     }
@@ -387,6 +388,7 @@ public class FirstBoss : MonoBehaviour
             Vector3 moveDirection = (player.transform.position - transform.position).normalized;
             Quaternion rotationAngle = Quaternion.Euler(0, 0, MathF.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg);
             SpawnProjectiles(axisProjectile, p3ProjectileAmount, p3ProjectileRadius, moveDirection, rotationAngle);
+            AudioManager.instance.PlaySound("axisprojectile");
             projectileTimer = 0;
         }
     }
