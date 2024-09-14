@@ -5,26 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Pathfinding;
+using UnityEngine.Rendering.UI;
 
-
-public struct EnemyStats
-{
-    public int Health;
-    public int moveSpeed;
-    public float projectileFrequency;
-    public int projectileAmount;
-    public float projectileLifeTime;
-    public float projectileMoveSpeed;
-    public EnemyStats(int health, int moveSpeed, float projectileFrequency, int projectileAmount, float projectileLifeTime, float projectileMoveSpeed)
-    {
-        this.Health = health;
-        this.moveSpeed = moveSpeed;
-        this.projectileFrequency = projectileFrequency;
-        this.projectileAmount = projectileAmount;
-        this.projectileLifeTime = projectileLifeTime;
-        this.projectileMoveSpeed = projectileMoveSpeed;
-    }
-}
 enum EnemyStates
 {
     Idle, AwareOfPlayer, FollowingPlayer, MovingBack // 2 other ones became useless but maybe that will change in the future
@@ -37,12 +19,11 @@ public class EnemyBehavior : MonoBehaviour
 {
     private GameObject player;
     private EnemyHealth health;
-    private EnemyStats stats;
+    [SerializeField] private EnemyStats stats;
     [field: SerializeField] public EnemyType Type { get; private set; }
     [SerializeField] private Vector3[] enemyIdlePoints;
     [SerializeField] private float timeOutOfRange;
     [SerializeField] private float idleMoveCooldown = 1;
-    private float outOfRangeTimer;
     private int idlePoints = 0;
     private bool idleCanMove = true;
     private bool aggro;
@@ -51,6 +32,7 @@ public class EnemyBehavior : MonoBehaviour
     private Path currentPath;
     private AIDestinationSetter destination;
     private int currentWayPoint;
+    private float playerDistance;
     public Vector3 EnemySpawnPoint { get; private set; }
     [SerializeField] private EnemyStates currentState; // remove serializefield later
     private float attackTimer;
@@ -60,18 +42,20 @@ public class EnemyBehavior : MonoBehaviour
         enemyPath = GetComponent<AIPath>();
         destination = GetComponent<AIDestinationSetter>();
         player = FindAnyObjectByType<PlayerHealth>().gameObject;
-        stats = SetStatsBasedOnType();
         health = GetComponent<EnemyHealth>();
         health.SetMaxHealth(stats.Health);
         EnemySpawnPoint = this.transform.position;
         currentState = EnemyStates.Idle;
-
+        enemyPath.maxSpeed = stats.MoveSpeed;
+        enemyPath.canMove = false;
+        enemyPath.canSearch = false;
         destination.target = player.transform;
         currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
     }
 
     void Update()
     {
+        playerDistance = Vector2.Distance(player.transform.position, transform.position);
         if (health.currentHealth <= 0)
         {
             Death();
@@ -84,32 +68,33 @@ public class EnemyBehavior : MonoBehaviour
         switch (currentState)
         {
             case EnemyStates.Idle:
-                enemyPath.enabled = false;
+                enemyPath.canMove = false;
                 IdleMovement();
                 break;
             case EnemyStates.FollowingPlayer:
-                enemyPath.enabled = true;
+                enemyPath.canMove = true;
                 AttackPattern();
                 break;
         }
     }
     private void SwitchStates()
     {
-        float playerDistance = Vector2.Distance(player.transform.position, transform.position);
-        if (playerDistance <= 6 || aggro)
+        if (currentState == EnemyStates.Idle)
         {
-            currentState = EnemyStates.FollowingPlayer;
-            aggro = false;
-        }
-        if (playerDistance > 8 && currentState == EnemyStates.FollowingPlayer)
-        {
-            outOfRangeTimer += Time.deltaTime;
-            if (outOfRangeTimer >= timeOutOfRange) // so much nesting...
+            enemyPath.canSearch = false;
+            if (playerDistance <= 6 || aggro)
             {
-                currentWayPoint = 0;
-                currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
-                currentState = EnemyStates.Idle;
-                outOfRangeTimer = 0;
+                currentState = EnemyStates.FollowingPlayer;
+                aggro = false;
+            }
+        }
+        else if (currentState == EnemyStates.FollowingPlayer)
+        {
+            enemyPath.canSearch = true;
+            enemyPath.autoRepath.mode = AutoRepathPolicy.Mode.Dynamic;
+            if (seeker.GetCurrentPath().vectorPath.Count > 7)
+            {
+                ResetAggro();
             }
         }
     }
@@ -156,45 +141,54 @@ public class EnemyBehavior : MonoBehaviour
             StartCoroutine(IdleCooldown());
         }
     }
+    private void ResetAggro()
+    {
+        currentWayPoint = 0;
+        currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
+        currentState = EnemyStates.Idle;
+    }
     private void AttackPattern()
     {
-        attackTimer += Time.deltaTime;
-        switch (Type)
+        if (playerDistance <= stats.ProjectileTriggerRange)
         {
-            case EnemyType.Suicidal:
-                SuicidalAttack();
-                break;
-            case EnemyType.Generic:
-                GenericAttack();
-                break;
-            case EnemyType.Tank:
-                TankAttack();
-                break;
-        }
+            attackTimer += Time.deltaTime;
+            switch (Type)
+            {
+                case EnemyType.Suicidal:
+                    SuicidalAttack();
+                    break;
+                case EnemyType.Generic:
+                    GenericAttack();
+                    break;
+                case EnemyType.Tank:
+                    TankAttack();
+                    break;
+            }
+        } 
     }
     private void SuicidalAttack()
     {
-        if (attackTimer >= stats.projectileFrequency)
+        if (attackTimer >= stats.ProjectileFrequency)
         {
-            ProjectileManager.instance.SpawnExplodingProjectile(this.transform, stats.projectileAmount, stats.projectileMoveSpeed, stats.projectileLifeTime, Vector3.zero);
+            ProjectileManager.instance.SpawnExplodingProjectile(this.transform, stats.ProjectileAmount, stats.ProjectileMoveSpeed, stats.ProjectileLifeTime, Vector3.zero);
             attackTimer = 0f;
         }
     }
     private void GenericAttack()
     {
-        if (attackTimer >= stats.projectileFrequency)
+        if (attackTimer >= stats.ProjectileFrequency)
         {
             Vector3 playerDirection = (ProjectileManager.instance.player.transform.position - transform.position).normalized;
             Quaternion rotationAngle = Quaternion.Euler(0, 0, MathF.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg);
-            ProjectileManager.instance.SpawnProjectile(this.transform, 1, stats.projectileMoveSpeed, stats.projectileLifeTime, playerDirection, rotationAngle);
+            ProjectileManager.instance.SpawnProjectile(this.transform, 1, stats.ProjectileMoveSpeed, stats.ProjectileLifeTime, playerDirection, rotationAngle);
             attackTimer = 0f;
         }
     }
     private void TankAttack()
     {
-        if (attackTimer >= stats.projectileFrequency)
+        if (attackTimer >= stats.ProjectileFrequency)
         {
-            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, stats.projectileAmount, 0, stats.projectileLifeTime, true, false, 0, stats.projectileMoveSpeed);
+            ProjectileManager.instance.SpawnEnemyRotatingProjectiles(this.transform, true, stats.ProjectileAmount, 0, stats.ProjectileLifeTime, stats.ProjectileRotationSpeed, stats.ProjectileMoveSpeed);
             attackTimer = 0f;
         }
     }
@@ -206,42 +200,6 @@ public class EnemyBehavior : MonoBehaviour
         }
         EnemyManager.instance.DisableEnemy(this.gameObject, health);
     }
-    private EnemyStats SetStatsBasedOnType()
-    {
-        EnemyStats stats = new();
-        switch (Type)
-        {
-            case EnemyType.Suicidal:
-                stats.Health = 5;
-                stats.moveSpeed = 4;
-                stats.projectileFrequency = 2f;
-                stats.projectileAmount = 1;
-                stats.projectileLifeTime = 1;
-                stats.projectileMoveSpeed = 0;
-                break;
-            case EnemyType.Generic:
-                stats.Health = 10;
-                stats.moveSpeed = 3;
-                stats.projectileFrequency = 0.6f;
-                stats.projectileAmount = 1;
-                stats.projectileLifeTime = 1f;
-                stats.projectileMoveSpeed = 2f;
-                break;
-            case EnemyType.Tank:
-                stats.Health = 20;
-                stats.moveSpeed = 2;
-                stats.projectileFrequency = 0.9f;
-                stats.projectileAmount = 10;
-                stats.projectileLifeTime = 1f;
-                stats.projectileMoveSpeed = 0.3f;
-                break;
-        }
-
-        enemyPath.maxSpeed = stats.moveSpeed;
-        enemyPath.enabled = false;
-
-        return stats;
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -252,13 +210,10 @@ public class EnemyBehavior : MonoBehaviour
         if (collision.CompareTag("Player Projectile"))
         {
             aggro = true;
-            outOfRangeTimer = 0;
         }
         if (collision.CompareTag("EnemyTrigger"))
         {
-            aggro = false;
-            outOfRangeTimer = timeOutOfRange;
-            currentState = EnemyStates.Idle;
+            ResetAggro();
         }
     }
 }

@@ -932,6 +932,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Suicidal 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1179324792972613690, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1806959955590776296, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -980,6 +984,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8941277166733594667, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 11400000, guid: 1bba3622c39193149995c51eccd41d8e, type: 2}
     - target: {fileID: 8941277166733594667, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: enemyIdlePoints.Array.size
       value: 5
@@ -1679,6 +1687,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Suicidal 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1179324792972613690, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1806959955590776296, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1727,6 +1739,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8941277166733594667, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 11400000, guid: 1bba3622c39193149995c51eccd41d8e, type: 2}
     - target: {fileID: 8941277166733594667, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: idleMoveCooldown
       value: 0
@@ -6350,6 +6366,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tank 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1179324792972613690, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1806959955590776296, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -6398,6 +6418,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8941277166733594667, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 11400000, guid: f3fd7c4fa1daf2a4eb2c6e86e74362b2, type: 2}
     - target: {fileID: 8941277166733594667, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: <Type>k__BackingField
       value: 2
@@ -7050,11 +7074,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8456082933671933680, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.49
+      value: 18.3
       objectReference: {fileID: 0}
     - target: {fileID: 8456082933671933680, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.85
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8456082933671933680, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7088,6 +7112,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8941277166733594667, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 11400000, guid: 5bb1cfbac281c54439d320e8ea0a082e, type: 2}
     - target: {fileID: 8941277166733594667, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: <Type>k__BackingField
       value: 1
@@ -7760,7 +7788,7 @@ MonoBehaviour:
     seed: 0
     pivotPointRoot: {fileID: 0}
     spreadOutCount: 1
-  showGraphs: 0
+  showGraphs: 1
 --- !u!114 &1061767543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24654,6 +24682,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tank 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1179324792972613690, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1806959955590776296, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -24664,11 +24696,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8456082933671933680, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 35.66
+      value: 2.65
       objectReference: {fileID: 0}
     - target: {fileID: 8456082933671933680, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.68
+      value: -4.49
       objectReference: {fileID: 0}
     - target: {fileID: 8456082933671933680, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24702,6 +24734,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8941277166733594667, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 11400000, guid: f3fd7c4fa1daf2a4eb2c6e86e74362b2, type: 2}
     - target: {fileID: 8941277166733594667, guid: ba3f99395b160e64c902edb302523e8f, type: 3}
       propertyPath: <Type>k__BackingField
       value: 2
