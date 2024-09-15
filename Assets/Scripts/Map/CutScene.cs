@@ -17,6 +17,7 @@ public class CutScene : MonoBehaviour
     private IEnumerator CutSceneStart()
     {
         this.gameObject.GetComponent<Collider2D>().enabled = false;
+        this.gameObject.transform.position += Vector3.up * 3;
         entranceDoor.shouldOpen = false;
         entranceDoor.shouldClose = true;
         cameraSwitch.SetCamera();

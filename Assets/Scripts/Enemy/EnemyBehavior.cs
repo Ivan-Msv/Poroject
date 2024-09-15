@@ -179,6 +179,8 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (attackTimer >= stats.ProjectileFrequency)
         {
+            AudioManager.instance.PlaySound("ExplodingMain");
+            AudioManager.instance.PlaySound("explodingprojectile", stats.ProjectileLifeTime);
             ProjectileManager.instance.SpawnExplodingProjectile(this.transform, stats.ProjectileAmount, stats.ProjectileMoveSpeed, stats.ProjectileLifeTime, Vector3.zero);
             attackTimer = 0f;
         }
@@ -187,6 +189,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (attackTimer >= stats.ProjectileFrequency)
         {
+            AudioManager.instance.PlaySound("axisprojectile");
             Vector3 playerDirection = (ProjectileManager.instance.player.transform.position - transform.position).normalized;
             Quaternion rotationAngle = Quaternion.Euler(0, 0, MathF.Atan2(playerDirection.y, playerDirection.x) * Mathf.Rad2Deg);
             ProjectileManager.instance.SpawnProjectile(this.transform, 1, stats.ProjectileMoveSpeed, stats.ProjectileLifeTime, playerDirection, rotationAngle);
@@ -197,6 +200,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (attackTimer >= stats.ProjectileFrequency)
         {
+            AudioManager.instance.PlaySound("rotatingprojectile");
             ProjectileManager.instance.SpawnEnemyRotatingProjectiles(this.transform, true, stats.ProjectileAmount, 0, stats.ProjectileLifeTime, stats.ProjectileRotationSpeed, stats.ProjectileMoveSpeed);
             attackTimer = 0f;
         }
@@ -207,6 +211,7 @@ public class EnemyBehavior : MonoBehaviour
         {
             case EnemyType.Suicidal:
                 ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 30, 0, 2, true, false, 0, 0.5f);
+                AudioManager.instance.PlaySound("explodingprojectile");
                 AudioManager.instance.PlaySound("SuicidalDeath");
                 break;
             case EnemyType.Generic:

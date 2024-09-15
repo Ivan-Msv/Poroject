@@ -28,13 +28,18 @@ public class AudioManager : MonoBehaviour
     }
 
 
-    public void PlaySound(string soundName)
+    public void PlaySound(string soundName, float delay = 0)
     {
+        StartCoroutine(soundFunction(soundName, delay));
+    }
+    private IEnumerator soundFunction(string name, float delay)
+    {
+        yield return new WaitForSeconds(delay);
         selectedClip = null;
-        soundName = soundName.ToLower();
+        name = name.ToLower();
         foreach (AudioClip clip in audioClips)
         {
-            if (clip.name.ToLower() == soundName)
+            if (clip.name.ToLower() == name)
             {
                 selectedClip = clip;
             }
@@ -51,7 +56,7 @@ public class AudioManager : MonoBehaviour
         {
             foreach (AudioClip clip in musicClips)
             {
-                if (clip.name.ToLower() == soundName)
+                if (clip.name.ToLower() == name)
                 {
                     selectedClip = clip;
                 }

@@ -956,6 +956,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8aa64d50a8d564345baba976b08af9fb, type: 3}
   - {fileID: 8300000, guid: 32cb105713693d04e94483575842f326, type: 3}
   - {fileID: 8300000, guid: d6a8ae0fde834d34993661276fb7bf70, type: 3}
+  - {fileID: 8300000, guid: 545bce5d7f0bd0243af26690da4739c6, type: 3}
+  - {fileID: 8300000, guid: d1e3215b7368edc41b5b8417be8e39bd, type: 3}
+  - {fileID: 8300000, guid: f1ada7ef61c9f6045aab511948b1dd39, type: 3}
+  - {fileID: 8300000, guid: cbeda870eae59a247a4c3b2f5e703ec8, type: 3}
   musicClips:
   - {fileID: 8300000, guid: 8f4461d94c1671243b78810544390d0b, type: 3}
   soundVolume: 0.5

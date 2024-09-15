@@ -321,6 +321,7 @@ public class FirstBoss : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 2 * Time.deltaTime);
             if (projectileTimer >= p1ProjectileFrequency)
             {
+                AudioManager.instance.PlaySound("rotatingprojectile");
                 ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, rotatingProjectileAmount, 0, attackTimerDuration, true, false);
                 projectileTimer = 0f;
             }
@@ -421,6 +422,8 @@ public class FirstBoss : MonoBehaviour
         Vector3 horizontalDirection = new Vector3(-yPos, xPos, 0).normalized;
         if (projectileTimer >= spProjectileFrequency && attackTimer <= attackTimerDuration - 1)
         {
+            AudioManager.instance.PlaySound("ExplodingMain");
+            AudioManager.instance.PlaySound("explodingprojectile", 1);
             SpawnProjectiles(explodingProjectile, 1, 0, verticalDirection);
             SpawnProjectiles(explodingProjectile, 1, 0, -verticalDirection);
             SpawnProjectiles(explodingProjectile, 1, 0, horizontalDirection);
@@ -436,6 +439,8 @@ public class FirstBoss : MonoBehaviour
     {
         if (RespawnManager.instance.CanMove && fightActive)
         {
+            AudioManager.instance.PlaySound("bossdeath");
+            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 50, 0, 5, true, false, 0, 0.3f);
             Instantiate(keyItem, transform.position, keyItem.transform.rotation);
             bossArea.EnableButton();
             gameObject.SetActive(false);
