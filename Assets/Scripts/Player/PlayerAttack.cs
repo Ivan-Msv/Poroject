@@ -16,6 +16,16 @@ public class PlayerAttack : MonoBehaviour
         {
             return;
         }
+        // debug
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            Time.timeScale = 1;
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            Time.timeScale = 5;
+        }
+
         timer += Time.deltaTime;
         Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = (new Vector3(mousepos.x, mousepos.y, 0) - transform.parent.position).normalized;

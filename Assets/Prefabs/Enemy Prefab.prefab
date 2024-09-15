@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 0
+  stats: {fileID: 0}
   enemyIdlePoints:
   - {x: 33.39, y: 1.6, z: 0}
   - {x: 29.52, y: 1.48, z: 0}
@@ -159,7 +160,6 @@ MonoBehaviour:
   - {x: 37.55, y: 1.43, z: 0}
   timeOutOfRange: 3
   idleMoveCooldown: 1
-  currentState: 0
 --- !u!114 &699861627619168280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,7 +583,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &8715461262694182718
 MonoBehaviour:

@@ -21,15 +21,6 @@ public class PlayerController : MonoBehaviour
             return;
         }
         PlayerMovement();
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            Time.timeScale = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            Time.timeScale = 5;
-        }
-        
     }
 
     private void PlayerMovement()

@@ -63,7 +63,6 @@ public class EnemyBehavior : MonoBehaviour
         }
         CurrentEnemyState();
         SwitchStates();
-        Debug.LogWarning(seeker.GetCurrentPath().vectorPath.Count);
     }
     private void CurrentEnemyState()
     {
