@@ -104,7 +104,7 @@ public class FirstBoss : MonoBehaviour
             attackTimer += Time.deltaTime;
         }
 
-        bool debug = false;
+        bool debug = true;
 
         if (fightActive && RespawnManager.instance.CanMove)
         {
@@ -122,19 +122,11 @@ public class FirstBoss : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
-                    AttackWheel(5);
+                    AttackWheel(2);
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    float xPos = MathF.Cos(spAngle);
-                    float yPos = MathF.Sin(spAngle);
-                    Vector3 verticalDirection = new Vector3(xPos, yPos, 0).normalized;
-                    Vector3 horizontalDirection = new Vector3(-yPos, xPos, 0).normalized;
-                    SpawnProjectiles(explodingProjectile, 1, 0, verticalDirection);
-                    SpawnProjectiles(explodingProjectile, 1, 0, -verticalDirection);
-                    SpawnProjectiles(explodingProjectile, 1, 0, horizontalDirection);
-                    SpawnProjectiles(explodingProjectile, 1, 0, -horizontalDirection);
-                    spAngle += spProjectileRotationSpeed * Time.deltaTime;
+                    AttackWheel(5);
                 }
             }
         }
@@ -147,6 +139,10 @@ public class FirstBoss : MonoBehaviour
     }
     private void PreBossFightMovement()
     {
+        if (transform.rotation != Quaternion.Euler(0, 0, 0))
+        {
+            transform.rotation = Quaternion.Euler(Vector3.MoveTowards(transform.eulerAngles, new Vector3(0, 0, 0), 2));
+        }
         Vector3 spawnPosition = new Vector3(39.77f, 33.71f, 0);
         if ((transform.position - spawnPosition).magnitude > 1)
         {
@@ -263,6 +259,7 @@ public class FirstBoss : MonoBehaviour
     {
         if (!canAttack)
         {
+            transform.rotation = Quaternion.Euler(Vector3.MoveTowards(transform.eulerAngles, new Vector3(0, 0, 0), 2));
             if (insideWall)
             {
                 transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 6 * Time.deltaTime);
@@ -348,7 +345,7 @@ public class FirstBoss : MonoBehaviour
     private void SecondAttackMovement()
     {
         Vector3 startPos = player.transform.position + new Vector3(0, 4, 0);
-
+        transform.rotation = Quaternion.Euler(Vector3.MoveTowards(transform.eulerAngles, new Vector3(0, 0, 90), 2));
         if (moveStage != 0)
         {
             switch (moveStage)
@@ -416,6 +413,14 @@ public class FirstBoss : MonoBehaviour
     }
     private IEnumerator SurvivalPhase()
     {
+        if (transform.rotation == Quaternion.Euler(0, 0, -180))
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        } else
+        {
+            transform.rotation = Quaternion.Euler(Vector3.MoveTowards(transform.eulerAngles, new Vector3(0, 0, -180), 1));
+        }
+
         float xPos = MathF.Cos(spAngle);
         float yPos = MathF.Sin(spAngle);
         Vector3 verticalDirection = new Vector3(xPos, yPos, 0).normalized;
