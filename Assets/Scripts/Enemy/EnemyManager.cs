@@ -40,8 +40,8 @@ public class EnemyManager : MonoBehaviour
             GameObject enemy = temp[i];
             enemy.transform.parent = enemyFolder;
             enemy.transform.position = enemy.GetComponent<EnemyBehavior>().EnemySpawnPoint;
-            enemy.GetComponent<EnemyBehavior>().OnRespawn();
             enemy.SetActive(true);
+            enemy.GetComponent<EnemyBehavior>().OnRespawn();
             deadEnemies.Remove(enemy);
             enemies.Add(enemy);
         }

@@ -47,7 +47,7 @@ public class RespawnManager : MonoBehaviour
         isRespawning = true;
         fadeBackground.StartFadeIn();
         yield return new WaitForSeconds(fadeBackground.FadeSpeed);
-        ArenaRestart();
+        arena.ResetArena();
         RespawnPlayer();
         EnemyManager.instance.RespawnAllEnemies();
         deathUI.GetComponent<CanvasGroup>().alpha = 0; // very crude
@@ -66,9 +66,5 @@ public class RespawnManager : MonoBehaviour
         }
         player.currentHealth = player.maxHealth;
         player.HealToFullHP();
-    }
-    private void ArenaRestart()
-    {
-        arena.ResetArena();
     }
 }

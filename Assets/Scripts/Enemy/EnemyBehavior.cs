@@ -151,7 +151,9 @@ public class EnemyBehavior : MonoBehaviour
     }
     private void ResetAggro()
     {
+        aggro = false;
         currentWayPoint = 0;
+        idlePoints = 0;
         currentPath = seeker.StartPath(transform.position, enemyIdlePoints[idlePoints]);
         currentState = EnemyStates.Idle;
     }
