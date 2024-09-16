@@ -23,7 +23,11 @@ public class PlayerAttack : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            Time.timeScale = 5;
+            Time.timeScale = 0.1f;
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            Time.timeScale = 3f;
         }
 
         timer += Time.deltaTime;

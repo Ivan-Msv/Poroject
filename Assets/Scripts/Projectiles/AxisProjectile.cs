@@ -63,7 +63,7 @@ public class AxisProjectile : MonoBehaviour
     public void SetDirection(Vector3 parentPos, Vector3 axis, float movementSpeed, float movespeedAcceleration, float decayTime)
     {
         parentPosition = parentPos;
-        directionAxis = axis;
+        directionAxis = new Vector3(axis.x, axis.y, 0);
         timeTillDecay = decayTime;
         moveSpeed = movementSpeed;
         moveSpeedMultiplier = movespeedAcceleration;

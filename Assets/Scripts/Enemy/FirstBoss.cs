@@ -40,6 +40,8 @@ public class FirstBoss : MonoBehaviour
     [Header("Pattern 1 settings")]
     [SerializeField] private float p1ProjectileFrequency = 0.6f;
     [SerializeField] private float p1AttackDuration = 5;
+    [SerializeField] private Vector3 p1MiddlePosition;
+    public float p1Angle;
     [Space]
     [Header("Pattern 2 settings")]
     [SerializeField] private float p2ProjectileFrequency = 0.3f;
@@ -85,6 +87,7 @@ public class FirstBoss : MonoBehaviour
     private float projectileTimer;
     private EnemyHealth healthSystem;
     private bool fightActive;
+    public bool altAngle;
 
     void Start()
     {
@@ -126,6 +129,10 @@ public class FirstBoss : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
+                    AttackWheel(3);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
                     AttackWheel(5);
                 }
             }
@@ -141,7 +148,7 @@ public class FirstBoss : MonoBehaviour
     {
         if (transform.rotation != Quaternion.Euler(0, 0, 0))
         {
-            transform.rotation = Quaternion.Euler(Vector3.MoveTowards(transform.eulerAngles, new Vector3(0, 0, 0), 2));
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, 0), 2);
         }
         Vector3 spawnPosition = new Vector3(39.77f, 33.71f, 0);
         if ((transform.position - spawnPosition).magnitude > 1)
@@ -250,7 +257,7 @@ public class FirstBoss : MonoBehaviour
             attackChoice = 0;
             moveStage = 0;
             p3CurrentRotationSpeed = p3RotationSpeed;
-
+            p1Angle = 0;
             idlePositionStart = transform.position;
             idleAngle = Mathf.Atan2(idlePositionStart.y, idlePositionStart.x);
         }
@@ -259,7 +266,7 @@ public class FirstBoss : MonoBehaviour
     {
         if (!canAttack)
         {
-            transform.rotation = Quaternion.Euler(Vector3.MoveTowards(transform.eulerAngles, new Vector3(0, 0, 0), 2));
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, 0), 2);
             if (insideWall)
             {
                 transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 6 * Time.deltaTime);
@@ -294,33 +301,56 @@ public class FirstBoss : MonoBehaviour
         int reduceObjects = 0;
         for (int i = 5; i < 10; i++)
         {
-            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 50 - reduceObjects,  i, attackTimerDuration, false, true);
+            ProjectileManager.instance.SpawnRotatingProjectiles(player.transform, 50 - reduceObjects,  i, attackTimerDuration, false);
             reduceObjects += 10;
         }
+        p1MiddlePosition = player.transform.position;
     }
     private void SurvivalAttackCircle()
     {
         int reduceObjects = 0;
         for (int i = 15; i < 20; i++)
         {
-            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 100 + reduceObjects, i, attackTimerDuration, false, false, 5);
+            ProjectileManager.instance.SpawnRotatingProjectiles(player.transform, 100 + reduceObjects, i, attackTimerDuration, false, 5);
             reduceObjects -= i;
         }
     }
     private void FirstAttackPattern()
     {
-        if (distanceFromPlayer > 5)
+        Debug.LogWarning($"{attackTimer} / {attackTimerDuration}");
+        FirstAttackMovement();
+        if (projectileTimer >= p1ProjectileFrequency)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 6 * Time.deltaTime);
-        }
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 2 * Time.deltaTime);
-            if (projectileTimer >= p1ProjectileFrequency)
+            //AudioManager.instance.PlaySound("rotatingprojectile");
+            if (attackTimer <= attackTimerDuration / 2)
             {
-                AudioManager.instance.PlaySound("rotatingprojectile");
-                ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, rotatingProjectileAmount, 0, attackTimerDuration, true, false);
-                projectileTimer = 0f;
+                ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, rotatingProjectileAmount, 0, 3f, true, 40, 2, altAngle);
+                p1Angle += 30;
+            }
+            else
+            {
+                ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, rotatingProjectileAmount, 0, 3f, true, -40, 2, altAngle);
+                p1Angle -= 30;
+            }
+            altAngle = !altAngle;
+            projectileTimer = 0f;
+        }
+    }
+
+    private void FirstAttackMovement()
+    {
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, p1Angle), 1);
+        if (transform.position != p1MiddlePosition)
+        {
+            projectileTimer = 0;
+
+            if (Vector3.Distance(transform.position, p1MiddlePosition) > 3)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, p1MiddlePosition, 8 * Time.deltaTime);
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, p1MiddlePosition, 3 * Time.deltaTime);
             }
         }
     }
@@ -345,7 +375,7 @@ public class FirstBoss : MonoBehaviour
     private void SecondAttackMovement()
     {
         Vector3 startPos = player.transform.position + new Vector3(0, 4, 0);
-        transform.rotation = Quaternion.Euler(Vector3.MoveTowards(transform.eulerAngles, new Vector3(0, 0, 90), 2));
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, 90), 2);
         if (moveStage != 0)
         {
             switch (moveStage)
@@ -394,11 +424,13 @@ public class FirstBoss : MonoBehaviour
     {
         float xPos = player.transform.position.x + MathF.Cos(p3Angle) * p3RotationDistance;
         float yPos = player.transform.position.y + MathF.Sin(p3Angle) * p3RotationDistance;
+        Vector3 moveDirection = (transform.position - new Vector3(xPos, yPos, 0)).normalized;
+        Vector3 rotationAngle = new Vector3(0, 0, MathF.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg);
         Vector3 newpos = new Vector3(xPos, yPos, 0);
 
         if (moveStage != 0)
         {
-            transform.position = newpos;
+            transform.SetPositionAndRotation(newpos, Quaternion.Euler(rotationAngle));
             p3Angle += p3CurrentRotationSpeed * Time.deltaTime;
             p3CurrentRotationSpeed -= 0.3f * Time.deltaTime;
         }
@@ -413,13 +445,7 @@ public class FirstBoss : MonoBehaviour
     }
     private IEnumerator SurvivalPhase()
     {
-        if (transform.rotation == Quaternion.Euler(0, 0, -180))
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        } else
-        {
-            transform.rotation = Quaternion.Euler(Vector3.MoveTowards(transform.eulerAngles, new Vector3(0, 0, -180), 1));
-        }
+        transform.rotation *= Quaternion.Euler(0, 0, 1);
 
         float xPos = MathF.Cos(spAngle);
         float yPos = MathF.Sin(spAngle);
@@ -445,7 +471,7 @@ public class FirstBoss : MonoBehaviour
         if (RespawnManager.instance.CanMove && fightActive)
         {
             AudioManager.instance.PlaySound("bossdeath");
-            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 50, 0, 5, true, false, 0, 0.3f);
+            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 50, 0, 5, true, 0, 0.3f);
             Instantiate(keyItem, transform.position, keyItem.transform.rotation);
             bossArea.EnableButton();
             gameObject.SetActive(false);
@@ -536,7 +562,6 @@ public class FirstBoss : MonoBehaviour
 
         return attackChance;
     }
-
     private int AttackChoiceCalc()
     {
         int finalNumber = 0;

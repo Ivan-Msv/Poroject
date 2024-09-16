@@ -21,20 +21,11 @@ public class RotatingProjectile : MonoBehaviour
     private Vector3 spawnScale;
     private float spawnSpeed;
 
-    void Awake()
+    private void Awake()
     {
         spawnScale = transform.localScale;
         spawnSpeed = moveSpeed;
-        transform.localScale = Vector3.zero;
     }
-
-    private void OnDisable()
-    {
-        transform.localScale = Vector3.zero;
-        moveSpeed = spawnSpeed;
-    }
-
-    // Update is called once per frame
     void Update()
     {
         timeTillDecay -= Time.deltaTime;
@@ -88,15 +79,11 @@ public class RotatingProjectile : MonoBehaviour
 
     public void SetDirection(Vector3 direction, Vector3 rotationTransform, bool shouldMoveForward, float decayTime, float rotateSpeed, float speed = 0)
     {
-        moveDirection = direction;
+        moveDirection = new Vector3(direction.x, direction.y, 0);
         rotationPos = rotationTransform;
         moveForward = shouldMoveForward;
         timeTillDecay = decayTime;
         rotationSpeed = rotateSpeed;
-
-        if (speed != 0)
-        {
-            moveSpeed = speed;
-        }
+        moveSpeed = speed == 0 ? spawnSpeed : speed;
     }
 }

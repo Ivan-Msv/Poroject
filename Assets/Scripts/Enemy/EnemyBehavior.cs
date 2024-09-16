@@ -211,7 +211,7 @@ public class EnemyBehavior : MonoBehaviour
         switch (Type)
         {
             case EnemyType.Suicidal:
-                ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 30, 0, 2, true, false, 0, 0.5f);
+                ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 30, 0, 2, true, 0, 0.5f);
                 AudioManager.instance.PlaySound("explodingprojectile");
                 AudioManager.instance.PlaySound("SuicidalDeath");
                 break;

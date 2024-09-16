@@ -745,11 +745,13 @@ MonoBehaviour:
   keyItem: {fileID: 1935393139054456480, guid: c1f0ba1e721ffc945a452adde55a6fe9, type: 3}
   axisProjectile: {fileID: 6241886411823918275, guid: 662f47a1dd91fa94b902b5cdbf618582, type: 3}
   explodingProjectile: {fileID: 7709948029733244176, guid: e25ac72eb70f08548922c4a3017543a4, type: 3}
-  rotatingProjectileAmount: 10
-  rotatingProjectileRadius: 0
+  rotatingProjectileAmount: 14
+  rotatingProjectileRadius: 1
   attackCooldownDuration: 3
-  p1ProjectileFrequency: 0.6
-  p1AttackDuration: 5
+  p1ProjectileFrequency: 0.7
+  p1AttackDuration: 12
+  p1MiddlePosition: {x: 0, y: 0, z: 0}
+  p1Angle: 0
   p2ProjectileFrequency: 0.3
   p2ProjectileAmount: 25
   p2ProjectileRadius: 40
@@ -772,6 +774,7 @@ MonoBehaviour:
   idleAngle: 0
   idlePositionStart: {x: 0, y: 0, z: 0}
   insideWall: 0
+  altAngle: 0
 --- !u!114 &151366082
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -26,22 +26,21 @@ public class ProjectileManager : MonoBehaviour
         ProjectilePoolSystem.instance.InitNewPool(explodingProjectile, 10);
     }
 
-    public void SpawnRotatingProjectiles(Transform spawnObject, int amount, float radius, float attackDuration, bool shouldMoveForward, bool aroundThePlayer, float rotationSpeed = 70, float projectileSpeed = 0)
+    public void SpawnRotatingProjectiles(Transform spawnObject, int amount, float radius, float attackDuration, bool shouldMoveForward, float rotationSpeed = 70, float projectileSpeed = 0, bool altAngle = false)
     {
         float angleStep = 360f / amount;
-        float angle = 0f;
+        float angle = 0;
+        if (altAngle)
+        {
+            angle += angleStep / 2;
+        }
+        else
+        {
+            angle += angleStep * 2;
+        }
         for (int i = 0; i < amount; i++)
         {
-            Vector3 currentPos = transform.position;
-            switch (aroundThePlayer)
-            {
-                case true:
-                    currentPos = player.transform.position;
-                    break;
-                case false:
-                    currentPos = spawnObject.position;
-                    break;
-            }
+            Vector3 currentPos = spawnObject.transform.position;
 
             if (radius != 0)
             {
@@ -62,7 +61,7 @@ public class ProjectileManager : MonoBehaviour
                 Vector3 projectileVector = new Vector3(projectileXDirection, projectileYDirection, 0);
                 Vector3 projectileMoveDirection = (projectileVector - currentPos).normalized;
 
-                GameObject projectileInstance = ProjectilePoolSystem.instance.GetObject(rotatingProjectile, currentPos, transform.rotation);
+                GameObject projectileInstance = ProjectilePoolSystem.instance.GetObject(rotatingProjectile, currentPos, spawnObject.transform.rotation);
                 projectileInstance.GetComponent<RotatingProjectile>().SetDirection(projectileMoveDirection, currentPos, shouldMoveForward, attackDuration, rotationSpeed, projectileSpeed);
             }
 

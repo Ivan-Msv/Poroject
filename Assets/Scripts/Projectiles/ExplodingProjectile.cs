@@ -62,7 +62,7 @@ public class ExplodingProjectile : MonoBehaviour
         if (transform.localScale.x <= 0.2f)
         {
             // explosion into deleting object
-            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, explodingAmount, 0, timeTillDecay - mainProjectileDecayTime, true, false, 70, explodingProjectileSpeed);
+            ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, explodingAmount, 0, timeTillDecay - mainProjectileDecayTime, true, 70, explodingProjectileSpeed);
             ProjectilePoolSystem.instance.ReturnToPool(gameObject);
         }
     }
@@ -77,7 +77,7 @@ public class ExplodingProjectile : MonoBehaviour
     public void SetDirection(Vector3 parentPos, Vector3 axis, float projectileMoveSpeed, float decayTime)
     {
         parentPosition = parentPos;
-        directionAxis = axis;
+        directionAxis = new Vector3(axis.x, axis.y, 0);
         timeTillDecay = decayTime;
         mainProjectileSpeed = projectileMoveSpeed;
     }

@@ -47,7 +47,7 @@ public class PlayerProjectile : MonoBehaviour
     }
     public void SetDirection(Vector3 spawnPoint, Vector3 direction)
     {
-        moveDirection = direction;
+        moveDirection = new Vector3(direction.x, direction.y, 0);
         startPos = spawnPoint;
     }
 
