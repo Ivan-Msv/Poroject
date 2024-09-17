@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 public class ProjectileManager : MonoBehaviour
@@ -88,7 +89,6 @@ public class ProjectileManager : MonoBehaviour
             newProjectile.GetComponent<ExplodingProjectile>().SetDirection(transform.position, projectileMoveDirection, projectileSpeed, projectileDuration);
         }
     }
-
     public void SpawnEnemyRotatingProjectiles(Transform spawnObject, bool setAsParent, int amount, float radius, float attackDuration, float rotationSpeed = 70, float projectileSpeed = 0)
     {
         float angleStep = 360f / amount;
@@ -129,6 +129,21 @@ public class ProjectileManager : MonoBehaviour
             }
 
             angle += angleStep;
+        }
+    }
+
+    public void DisableAllProjectiles()
+    {
+        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+        foreach (GameObject gameObject in allObjects)
+        {
+            if (gameObject.GetComponent<RotatingProjectile>() != null || gameObject.GetComponent<AxisProjectile>() || gameObject.GetComponent<ExplodingProjectile>())
+            {
+                if (gameObject.activeInHierarchy)
+                {
+                    ProjectilePoolSystem.instance.ReturnToPool(gameObject);
+                }
+            }
         }
     }
 }

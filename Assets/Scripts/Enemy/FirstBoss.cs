@@ -244,6 +244,9 @@ public class FirstBoss : MonoBehaviour
     {
         if (healthSystem.currentHealth <= 0 && attackChoice != 5 && attackChoice != 0)
         {
+            ProjectileManager.instance.DisableAllProjectiles();
+            CameraShake.instance.ShakeCamera(7, 0.2f);
+            AudioManager.instance.PlaySound("BossSurvivalPhase");
             attackTimer = 200;
             BeginCooldown();
         }
