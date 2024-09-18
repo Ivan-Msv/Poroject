@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class EndingCutscenes : MonoBehaviour
 {
+    private DialogueData data;
+    void Start()
+    {
+        data = GetComponent<DialogueData>();
+    }
     public void FirstEnding()
     {
-
-    }
-    public void SecondEnding()
-    {
-
+        data.TriggerDialogue();
     }
 }

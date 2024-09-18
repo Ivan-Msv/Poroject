@@ -49,7 +49,7 @@ public class GateTotem : MonoBehaviour
 
     private void DialogueTrigger()
     {
-        if (interactable && Input.GetKeyDown(KeyCode.E) && !data.dialogueActive)
+        if (interactable && Input.GetKeyDown(KeyCode.E) && !DialogueManager.instance.dialogueActive)
         {
             DialogueOptions();
         }

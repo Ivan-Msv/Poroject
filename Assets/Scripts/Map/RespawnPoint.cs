@@ -35,7 +35,7 @@ public class RespawnPoint : MonoBehaviour
 
     private void DialogueTrigger()
     {
-        if (interactable && Input.GetKeyDown(KeyCode.E) && !data.dialogueActive && RespawnManager.instance.CanMove)
+        if (interactable && Input.GetKeyDown(KeyCode.E) && !DialogueManager.instance.dialogueActive && RespawnManager.instance.Alive)
         {
             DialogueOptions();
         }

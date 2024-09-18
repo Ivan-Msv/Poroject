@@ -8,7 +8,7 @@ public class RespawnManager : MonoBehaviour
     [SerializeField] Fade deathUI;
     [SerializeField] Fade fadeBackground;
     [SerializeField] Boss_Arena arena;
-    [field: SerializeField] public bool CanMove { get; private set; } = true;
+    [field: SerializeField] public bool Alive { get; private set; } = true;
     private bool isRespawning = false;
     private PlayerHealth player;
     public GameObject playerRespawnPoint { get; private set; }
@@ -23,7 +23,7 @@ public class RespawnManager : MonoBehaviour
 
     void Update()
     {
-        CanMove = player.currentHealth > 0;
+        Alive = player.currentHealth > 0;
         DeathScreen();
     }
 
@@ -33,7 +33,7 @@ public class RespawnManager : MonoBehaviour
     }
     private void DeathScreen()
     {
-        if (!CanMove)
+        if (!Alive)
         {
             deathUI.StartFadeIn();
             if (Input.GetKeyDown(KeyCode.E) && !isRespawning)

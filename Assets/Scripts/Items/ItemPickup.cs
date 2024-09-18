@@ -25,7 +25,7 @@ public class ItemPickup : MonoBehaviour
 
     private void DialogueTrigger()
     {
-        if (canBeInteracted && Input.GetKeyDown(KeyCode.E) && !data.dialogueActive)
+        if (canBeInteracted && Input.GetKeyDown(KeyCode.E) && !DialogueManager.instance.dialogueActive)
         {
             data.TriggerDialogue();
             itemFeature.ApplyEffect(player.gameObject);

@@ -109,7 +109,7 @@ public class FirstBoss : MonoBehaviour
 
         bool debug = true;
 
-        if (fightActive && RespawnManager.instance.CanMove)
+        if (fightActive && RespawnManager.instance.Alive)
         {
             bossUI.enabled = true;
             Attack();
@@ -471,7 +471,7 @@ public class FirstBoss : MonoBehaviour
     }
     private void Death()
     {
-        if (RespawnManager.instance.CanMove && fightActive)
+        if (RespawnManager.instance.Alive && fightActive)
         {
             AudioManager.instance.PlaySound("bossdeath");
             ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, 50, 0, 5, true, 0, 0.3f);

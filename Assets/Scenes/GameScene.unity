@@ -317,6 +317,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 72387215}
+  - component: {fileID: 72387216}
+  - component: {fileID: 72387217}
   m_Layer: 0
   m_Name: Ending Area
   m_TagString: Untagged
@@ -342,6 +344,44 @@ Transform:
   - {fileID: 506445949}
   m_Father: {fileID: 359037157}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &72387216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72387214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d45d923ba6008074aab4b08e55790344, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &72387217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72387214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0458f85f39bf14c8e08d2aca966619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nickname: The Unknown
+  sentences:
+  - '...
+
+'
+  - At last... YES! AT LAST!
+  - I thank thee... for releasing us.
+  - For that... we shall be eternally grateful.
+  choiceSentence: 
+  choice1: 
+  choice2: 
+  hasChoice: 0
+  dialogueActive: 0
+  selectedChoice: 0
 --- !u!1 &105010178
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,7 +1325,7 @@ MonoBehaviour:
   deathUI: {fileID: 1968531033}
   fadeBackground: {fileID: 1485279168}
   arena: {fileID: 1667502267}
-  <CanMove>k__BackingField: 1
+  <Alive>k__BackingField: 1
 --- !u!1001 &213713672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3702,13 +3742,13 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: 
+        - m_Target: {fileID: 72387216}
+          m_TargetAssemblyTypeName: EndingCutscenes, Assembly-CSharp
+          m_MethodName: FirstEnding
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -3804,7 +3844,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5279999, y: 11.9, z: -2.465353}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8185,7 +8225,7 @@ Transform:
   m_GameObject: {fileID: 957962849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.572, y: -5, z: -7.534647}
+  m_LocalPosition: {x: 20.528, y: 30.1, z: -7.534647}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26328,7 +26368,7 @@ Transform:
   m_GameObject: {fileID: 1353001384}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: -5, z: 2.4653528}
+  m_LocalPosition: {x: 20.1, y: 30.1, z: 2.4653528}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:

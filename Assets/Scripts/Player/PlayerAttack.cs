@@ -12,7 +12,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (Time.timeScale == 0 || !RespawnManager.instance.CanMove)
+        if (Time.timeScale == 0 || !RespawnManager.instance.Alive)
         {
             return;
         }
