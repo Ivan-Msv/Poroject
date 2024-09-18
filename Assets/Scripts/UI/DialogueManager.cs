@@ -121,5 +121,9 @@ public class DialogueManager : MonoBehaviour
         choice1Visual.gameObject.SetActive(false);
         choice2Visual.gameObject.SetActive(false);
         continueText.gameObject.SetActive(false);
+        if (data.ending)
+        {
+            Debug.LogWarning("Ending");
+        }
     }
 }

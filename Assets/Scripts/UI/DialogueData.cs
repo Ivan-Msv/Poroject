@@ -13,6 +13,7 @@ public class DialogueData : MonoBehaviour
     public bool hasChoice = false;
     public bool dialogueActive = false;
     public int selectedChoice;
+    public bool ending = false;
 
     public void TriggerDialogue()
     {

@@ -382,6 +382,7 @@ MonoBehaviour:
   hasChoice: 0
   dialogueActive: 0
   selectedChoice: 0
+  ending: 0
 --- !u!1 &105010178
 GameObject:
   m_ObjectHideFlags: 0
@@ -8849,7 +8850,7 @@ MonoBehaviour:
   manualDebugFloorRoof: 0
   showSearchTree: 0
   unwalkableNodeDebugSize: 0.3
-  logPathResults: 1
+  logPathResults: 0
   maxNearestNodeDistance: 100
   scanOnStartup: 1
   fullGetNearestSearch: 0
@@ -8908,7 +8909,7 @@ MonoBehaviour:
     seed: 0
     pivotPointRoot: {fileID: 0}
     spreadOutCount: 1
-  showGraphs: 1
+  showGraphs: 0
 --- !u!114 &1061767543
 MonoBehaviour:
   m_ObjectHideFlags: 0

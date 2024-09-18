@@ -11,6 +11,7 @@ public class EndingCutscenes : MonoBehaviour
     }
     public void FirstEnding()
     {
+        data.ending = true;
         data.TriggerDialogue();
     }
 }
