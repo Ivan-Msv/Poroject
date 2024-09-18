@@ -107,35 +107,11 @@ public class FirstBoss : MonoBehaviour
             attackTimer += Time.deltaTime;
         }
 
-        bool debug = true;
-
         if (fightActive && RespawnManager.instance.Alive)
         {
             bossUI.enabled = true;
             Attack();
-            if (!debug)
-            {
-                AttackWheel();
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                    AttackWheel(1);
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha2))
-                {
-                    AttackWheel(2);
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha3))
-                {
-                    AttackWheel(3);
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha4))
-                {
-                    AttackWheel(5);
-                }
-            }
+            AttackWheel();
         }
         else
         {
@@ -320,11 +296,10 @@ public class FirstBoss : MonoBehaviour
     }
     private void FirstAttackPattern()
     {
-        Debug.LogWarning($"{attackTimer} / {attackTimerDuration}");
         FirstAttackMovement();
         if (projectileTimer >= p1ProjectileFrequency)
         {
-            //AudioManager.instance.PlaySound("rotatingprojectile");
+            AudioManager.instance.PlaySound("rotatingprojectile");
             if (attackTimer <= attackTimerDuration / 2)
             {
                 ProjectileManager.instance.SpawnRotatingProjectiles(this.transform, rotatingProjectileAmount, 0, 3f, true, 40, 2, altAngle);

@@ -11,9 +11,6 @@ public class GateState : MonoBehaviour
     {
         switch (keyState)
         {
-            case PlayerKeyStates.ConsumedKey:
-                Debug.Log("Yea");
-                break;
             case PlayerKeyStates.NoKey:
                 player.keyItemState = (int)keyState;
                 anim.Play("Totem Glow");

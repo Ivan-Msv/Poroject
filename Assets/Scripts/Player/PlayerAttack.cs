@@ -17,23 +17,6 @@ public class PlayerAttack : MonoBehaviour
         {
             return;
         }
-        // debug
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            Time.timeScale = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            Time.timeScale = 0.1f;
-        }
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            Time.timeScale = 3f;
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ProjectileManager.instance.DisableAllProjectiles();
-        }
 
         timer += Time.deltaTime;
         Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

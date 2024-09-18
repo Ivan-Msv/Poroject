@@ -26,7 +26,7 @@ public class VolumeSlider : MonoBehaviour
         switch (sound)
         {
             case true:
-                AudioManager.instance.soundVolume = slider.value;
+                AudioManager.instance.soundVolume = slider.value;   
                 tmp.text = $"Sound Volume ({Math.Round(slider.value, 2)})";
                 break;
             case false:
