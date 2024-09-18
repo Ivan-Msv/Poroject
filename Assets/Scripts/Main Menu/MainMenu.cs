@@ -10,6 +10,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject optionMenu;
 
+    private void Awake()
+    {
+        Time.timeScale = 1f;
+    }
     public void GotoMainMenu()
     {
         optionMenu.SetActive(false);
