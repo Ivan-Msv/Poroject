@@ -1,3 +1,4 @@
+using Autodesk.Fbx;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst;
@@ -36,7 +37,7 @@ public class PlayerAttack : MonoBehaviour
 
         timer += Time.deltaTime;
         Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 direction = (new Vector3(mousepos.x, mousepos.y, 0) - transform.parent.position).normalized;
+        Vector2 direction = (mousepos - transform.parent.position).normalized;
 
         if (Input.GetMouseButton(0) && timer >= projectileFrequency)
         {

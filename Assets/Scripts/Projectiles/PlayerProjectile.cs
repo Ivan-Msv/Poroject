@@ -19,12 +19,6 @@ public class PlayerProjectile : MonoBehaviour
         startSpeed = projectileSpeed;
     }
 
-    private void OnDisable()
-    {
-        transform.localScale = startScale;
-        projectileSpeed = startSpeed;
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -45,10 +39,13 @@ public class PlayerProjectile : MonoBehaviour
             ProjectilePoolSystem.instance.ReturnToPool(gameObject);
         }
     }
-    public void SetDirection(Vector3 spawnPoint, Vector3 direction)
+    public void SetDirection(Vector3 spawnPoint, Vector2 direction)
     {
-        moveDirection = new Vector3(direction.x, direction.y, 0);
+        moveDirection = direction.normalized;
         startPos = spawnPoint;
+
+        transform.localScale = startScale;
+        projectileSpeed = startSpeed;
     }
 
     private void AudioSetting(Collider2D collision)
