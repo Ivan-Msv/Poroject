@@ -9,9 +9,13 @@ public class RespawnManager : MonoBehaviour
     [SerializeField] Fade fadeBackground;
     [SerializeField] Boss_Arena arena;
     [field: SerializeField] public bool Alive { get; private set; } = true;
+    public GameObject playerRespawnPoint { get; private set; }
     private bool isRespawning = false;
     private PlayerHealth player;
-    public GameObject playerRespawnPoint { get; private set; }
+    // I sort of hate this code and I didn't find any better place to store this data
+    // (player doesn't have static instance because i cant be bothered)
+    public int deathCount;
+    public int healsTaken;
     void Awake()
     {
         if (instance == null)
@@ -45,6 +49,7 @@ public class RespawnManager : MonoBehaviour
     public IEnumerator RespawnAllObjects()
     {
         isRespawning = true;
+        deathCount++;
         fadeBackground.StartFadeIn();
         yield return new WaitForSeconds(fadeBackground.FadeSpeed);
         arena.ResetArena();

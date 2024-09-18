@@ -123,7 +123,7 @@ public class DialogueManager : MonoBehaviour
         continueText.gameObject.SetActive(false);
         if (data.ending)
         {
-            Debug.LogWarning("Ending");
+            data.ending = false;
         }
     }
 }

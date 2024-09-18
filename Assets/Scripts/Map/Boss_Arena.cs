@@ -6,7 +6,7 @@ using UnityEngine;
 public class Boss_Arena : MonoBehaviour
 {
     [SerializeField] private CutScene _scene;
-    [SerializeField] private Button shortcutButton;
+    [SerializeField] private DoorButton shortcutButton;
     [SerializeField] private float speed;
     public bool fightActive;
 

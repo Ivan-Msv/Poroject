@@ -38,7 +38,7 @@ public class GateTotem : MonoBehaviour
         switch (data.selectedChoice)
         {
             case 1:
-                playerState.ChangeKeyState(player, anim, data);
+                playerState.ChangeKeyState(player, anim);
                 data.selectedChoice = 0;
                 break;
             case 2:

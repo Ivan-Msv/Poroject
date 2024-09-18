@@ -39,6 +39,7 @@ public class PlayerHealth : MonoBehaviour
         {
             case int n when n > 1:
                 AudioManager.instance.PlaySound("playerhit");
+                CameraShake.instance.ShakeCamera(3, 0.3f);
                 playerShield.gameObject.SetActive(true);
                 playerShield.Play("Player Shield");
                 break;
@@ -46,7 +47,6 @@ public class PlayerHealth : MonoBehaviour
                 AudioManager.instance.PlaySound("playerdeath");
                 break;
         }
-        CameraShake.instance.ShakeCamera(3, 0.3f);
         currentHealth--;
         healthUI.DrawHearts();
         StartCoroutine(ActivateIFrames());

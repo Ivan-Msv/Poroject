@@ -129,7 +129,7 @@ CanvasGroup:
   m_GameObject: {fileID: 8948339629991757760}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &3123591555008973675
@@ -284,6 +284,7 @@ MonoBehaviour:
   hasChoice: 1
   dialogueActive: 0
   selectedChoice: 0
+  ending: 0
 --- !u!114 &8948339630340261192
 MonoBehaviour:
   m_ObjectHideFlags: 0

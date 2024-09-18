@@ -9,6 +9,7 @@ public class HealthUpgrade : ItemEffect
     [SerializeField] private int amount;
     public override void ApplyEffect(GameObject player)
     {
+        RespawnManager.instance.healsTaken++;
         player.GetComponent<PlayerHealth>().UpgradeHealth(amount);
     }
 }

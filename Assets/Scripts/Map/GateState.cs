@@ -6,16 +6,22 @@ using UnityEngine;
 public class GateState : MonoBehaviour
 {
     [SerializeField] private PlayerKeyStates keyState;
-    [TextArea()]
-    [SerializeField] private string newDialogue;
-    public void ChangeKeyState(PlayerController player, Animator anim, DialogueData data)
+    [SerializeField] private Door gates;
+    public void ChangeKeyState(PlayerController player, Animator anim)
     {
-        player.keyItemState = (int)keyState;
-        anim.Play("Totem Glow");
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        gameObject.GetComponentInChildren<InteractText>().gameObject.SetActive(false);
-        data.sentences[0] = newDialogue;
-        data.hasChoice = false;
-        data.TriggerDialogue();
+        switch (keyState)
+        {
+            case PlayerKeyStates.ConsumedKey:
+                Debug.Log("Yea");
+                break;
+            case PlayerKeyStates.NoKey:
+                player.keyItemState = (int)keyState;
+                anim.Play("Totem Glow");
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                gameObject.GetComponentInChildren<InteractText>().gameObject.SetActive(false);
+                gates.shouldOpen = true;
+                gameObject.GetComponent<SwitchCamera>().SetCamera(4);
+                break;
+        }
     }
 }

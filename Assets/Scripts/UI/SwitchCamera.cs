@@ -7,10 +7,11 @@ public class SwitchCamera : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera playerCamera;
     [SerializeField] private CinemachineVirtualCamera targetCamera;
-
+    private CinemachineBrain cameraBrain;
     void Start()
     {
-        
+        // since only one exists anyway
+        cameraBrain = FindAnyObjectByType<CinemachineBrain>();
     }
 
     // Update is called once per frame
@@ -19,8 +20,9 @@ public class SwitchCamera : MonoBehaviour
         
     }
 
-    public void SetCamera()
+    public void SetCamera(float time = 2)
     {
+        cameraBrain.m_DefaultBlend.m_Time = time;
         switch (playerCamera.Priority)
         {
             case 0:
