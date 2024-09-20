@@ -260,7 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickname: ???
   sentences:
-  - You have obtained the divine core.
+  - You have obtained the sacred core.
   choiceSentence: 
   choice1: 
   choice2: 
