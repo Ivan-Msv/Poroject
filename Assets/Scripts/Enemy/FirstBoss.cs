@@ -2,12 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.Timeline;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class FirstBoss : MonoBehaviour
@@ -18,7 +15,6 @@ public class FirstBoss : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Boss_Arena bossArea;
     [SerializeField] private GameObject keyItem;
-    private float distanceFromPlayer;
     [Space]
     [Header("Projectile List")]
     [SerializeField] private GameObject axisProjectile;
@@ -100,7 +96,6 @@ public class FirstBoss : MonoBehaviour
     void Update()
     {
         fightActive = bossArea.fightActive;
-        distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (attackChoice != 0)
         {
